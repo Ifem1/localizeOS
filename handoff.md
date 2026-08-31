@@ -4,10 +4,10 @@
 
 ## Current checkpoint
 
-- **Phase:** Initial implementation scaffold complete; live integration not started.
-- **Last completed work:** Contract lifecycle scaffold and Next.js domain shell committed locally as `000e640`.
-- **Next exact action:** Verify GenLayer contract APIs, add VecDB/direct tests, and implement real browser reads/writes.
-- **Known blockers:** GitHub push is blocked by GitHub returning HTTP 403 for authenticated user `BeatyXO`.
+- **Phase:** Local verification and live integration.
+- **Last completed work:** Added GenLayer SDK client/wallet/finality helpers, VecDB retrieval/insertion path, indexed views, dynamic routes, and corrected strict-equivalence policy evidence flow.
+- **Next exact action:** Deploy through StudioNet Studio/CLI project flow; RPC connectivity currently fails from this environment.
+- **Known blockers:** StudioNet RPC fetch fails; GitHub is now pushed successfully to `origin/main`.
 - **StudioNet address:** Not deployed.
 - **Deployment commit:** Not available.
 - **Frontend URL:** Not deployed.
