@@ -1,0 +1,6 @@
+apps/web/node_modules/
+apps/web/.next/
+apps/web/tsconfig.tsbuildinfo
+.env.local
+__pycache__/
+*.pyc
