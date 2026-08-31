@@ -4,3 +4,5 @@ apps/web/tsconfig.tsbuildinfo
 .env.local
 __pycache__/
 *.pyc
+.pytest_cache/
+artifacts/

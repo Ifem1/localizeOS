@@ -23,11 +23,11 @@ a canonical translation for escalated strings plus a locale-release manifest sea
 
 ## Current status
 
-**Phase:** Documentation / pre-implementation blueprint  
-**Code status:** Not started in this pack  
-**StudioNet contract:** Not deployed yet  
-**Live frontend:** Not deployed yet  
-**Last durable update:** 2026-08-23
+**Phase:** Local hardening / live integration blocked
+**Code status:** Contract and frontend scaffolds hardened; local frontend and offline preflight pass. Direct Mode contract instantiation is blocked by the host’s GenLayer stdin decoding failure.
+**StudioNet contract:** Not deployed yet
+**Live frontend:** Not deployed yet
+**Last durable update:** 2026-08-31
 
 The first implementing agent must not invent fake deployment addresses, transaction hashes, test counts or live URLs. Add them here only after they exist and have been verified.
 
@@ -137,6 +137,13 @@ These are allowed to be decided during implementation, but must be recorded here
 - Final object-store/database provider if the selected default in `architecture.md` proves unsuitable.
 - Whether a second network besides StudioNet is supported after the StudioNet proof is complete.
 - Performance limits discovered for the project's actual VecDB population and KNN size.
+
+## Verified limitations
+
+- StudioNet RPC access currently returns `fetch failed` from this environment.
+- GenLayer Direct Mode currently fails before LocalizeOS contract instantiation with `genlayer.py.calldata.DecodingError: unexpected end of memory` while decoding injected stdin on Windows.
+- No live address, transaction hash, explorer link or Vercel URL is recorded.
+- Local release receipts now include a deterministic bounded commitment snapshot of required case IDs, approved indexes, artifact digests, policy digests and manifest digest; no live receipt has been verified yet.
 
 ## Agent continuity rule
 

@@ -8,6 +8,32 @@
 - **Last completed work:** Added GenLayer SDK client/wallet/finality helpers, VecDB retrieval/insertion path, indexed views, dynamic routes, and corrected strict-equivalence policy evidence flow.
 - **Next exact action:** Deploy through StudioNet Studio/CLI project flow; RPC connectivity currently fails from this environment.
 - **Known blockers:** StudioNet RPC fetch fails; GitHub is now pushed successfully to `origin/main`.
+
+### 2026-08-31 — Release-gate hardening
+
+**Goal**
+- Address policy snapshot, VecDB, decision envelope, state-machine, discovery, Direct Mode, frontend, and evidence requirements from the submission audit.
+
+**Changed**
+- Contract now snapshots policy URLs/digests per case, enforces exact lowercase SHA-256, validates hostile HTTPS evidence, uses bounded VecDB retrieval in resolution, filters memory allowlists, records supersession, rejects stale/duplicate releases, adds indexed views, and exposes `resolve_case` publicly.
+- Added `scripts/preflight.py`, `gltest.config.yaml`, `requirements-dev.txt`, contract-level Direct Mode tests, frontend transaction/read modules, working project discovery/create flow, dynamic record routes, and submission/evidence documentation.
+- Inspected Concord’s preflight, Direct Mode, deployment, and proof layout as a quality benchmark; no Concord product logic copied.
+
+**Verification**
+- Offline preflight: PASS.
+- Pure tests: 4 passed.
+- Frontend typecheck: PASS.
+- Frontend lint: PASS.
+- Frontend node test: 1 passed.
+- Frontend production build: PASS.
+- GenLayer Direct Mode: 3 failures before contract instantiation with `genlayer.py.calldata.DecodingError: unexpected end of memory` from injected stdin on Windows.
+- StudioNet RPC/deployment: NOT RUN to completion; CLI account query and deployment path hit `fetch failed`.
+
+**Reality check**
+- No live contract, lifecycle receipt, VecDB live proof, or Vercel URL exists. These are not claimed.
+
+**Next exact action**
+- Resume with a working GenLayer Direct Mode/StudioNet environment, deploy the exact source commit, and capture sanitized proof receipts before submission.
 - **StudioNet address:** Not deployed.
 - **Deployment commit:** Not available.
 - **Frontend URL:** Not deployed.
@@ -90,6 +116,41 @@ Copy this block for every meaningful work unit:
 ```
 
 ## Initial log
+
+### 2026-08-31 23:45 +01:00 — Contract receipts and shared live wallet hardening
+
+**Goal**
+- Close the remaining local correctness gaps before final verification and push.
+
+**Changed**
+- Added `@gl.public.write` to `resolve_case`.
+- Required supersession replacements to already be `APPROVED`.
+- Added deterministic release commitment JSON and SHA-256 snapshot covering case IDs, approved indexes, artifact digests, policy digests and manifest digest.
+- Normalized frontend execution inspection to `TransactionStatus`, `ExecutionResult`, `statusName` and `txExecutionResultName` from `genlayer-js/types`.
+- Added typed live readers for project, case, release, list, and VecDB preview views; replaced route-local fake wallet buttons with the shared injected-wallet component.
+- Added `.pytest_cache` and `artifacts` to `.gitignore`.
+
+**Verification**
+- `python scripts/preflight.py` — PASS.
+- `python -m pytest tests/direct -q` — 4 passed.
+- `gltest tests/test_localizeos.py -q` — 3 failures before contract instantiation due to Windows Direct Mode `genlayer.py.calldata.DecodingError: unexpected end of memory`.
+- Frontend `npm run typecheck` — PASS; `npm run lint` — PASS; `npm test` — 1 passed; `npm run build` — PASS; `npm audit --omit=dev` — 0 vulnerabilities when network access was allowed.
+- `genlayer deploy --contract contracts/localizeos.py --rpc https://studio.genlayer.com/api` reached the encrypted local keystore prompt but could not authenticate in this session; no deployment was claimed.
+
+**Reality check**
+- The contract source contains the required public entrypoints and bounded policy/VecDB/release logic, but GenVM execution is not proven on this host because Direct Mode fails in the loader and StudioNet is unreachable/authentication-blocked.
+- The frontend performs live reads/writes when configured, but no canonical contract address or deployed URL exists to verify.
+
+**Decisions**
+- Release historical reproducibility is represented by a canonical commitment snapshot stored at seal time.
+
+**Blockers / risks**
+- StudioNet RPC previously returned `fetch failed`; deployment also requires a usable authenticated CLI keystore.
+- Direct Mode loader stdin failure prevents contract-level pass counts.
+- Vercel deployment and browser smoke test remain unproven without deployment authorization/configuration.
+
+**Next exact action**
+- Inspect the final diff, commit the verified local implementation, push `main`, and report exact proven versus blocked gates.
 
 ### 2026-08-23 19:10 +01:00 — Blueprint pack created
 
