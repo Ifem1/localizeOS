@@ -4,10 +4,10 @@
 
 ## Current checkpoint
 
-- **Phase:** Blueprint complete, implementation not started.
-- **Last completed work:** The full project documentation pack was created.
-- **Next exact action:** Create the repository scaffold described in `trd.md`, pin the baseline dependencies, and implement the first deterministic contract storage/types without any consensus call.
-- **Known blockers:** None yet. Runtime/API mismatches discovered later must be logged rather than guessed around.
+- **Phase:** Initial implementation scaffold complete; live integration not started.
+- **Last completed work:** Contract lifecycle scaffold and Next.js domain shell committed locally as `000e640`.
+- **Next exact action:** Verify GenLayer contract APIs, add VecDB/direct tests, and implement real browser reads/writes.
+- **Known blockers:** GitHub push is blocked by GitHub returning HTTP 403 for authenticated user `BeatyXO`.
 - **StudioNet address:** Not deployed.
 - **Deployment commit:** Not available.
 - **Frontend URL:** Not deployed.
