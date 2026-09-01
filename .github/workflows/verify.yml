@@ -1,43 +1,53 @@
 name: Verify LocalizeOS
-
 on:
   push:
     branches: [main]
   pull_request:
 
 jobs:
-  verify:
+  contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+        with: { python-version: "3.12" }
+      - name: Install contract tooling
+        run: python -m pip install -r requirements-dev.txt
+      - name: Compile Python
+        run: python -m compileall -q contracts scripts tests
+      - name: GenVM lint and validation
+        run: genvm-lint check contracts/localizeos.py
+      - name: Behavioral preflight
+        run: python scripts/preflight.py
+      - name: Pure validation tests
+        run: python -m pytest tests/direct -q
+      - name: Direct Mode contract tests
+        run: gltest tests/test_localizeos.py -q
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
           cache-dependency-path: apps/web/package-lock.json
-      - name: Install Python test dependencies
-        run: python -m pip install -r requirements-dev.txt
-      - name: Compile contract
-        run: python -m compileall -q contracts scripts tests
-      - name: Contract preflight
-        run: python scripts/preflight.py
-      - name: Direct Mode contract tests
-        run: gltest tests/test_localizeos.py -q
       - name: Install frontend dependencies
         working-directory: apps/web
         run: npm ci
-      - name: Frontend typecheck
+      - name: Typecheck
         working-directory: apps/web
         run: npm run typecheck
-      - name: Frontend lint
+      - name: Lint
         working-directory: apps/web
         run: npm run lint
-      - name: Frontend tests
+      - name: Tests
         working-directory: apps/web
         run: npm test
-      - name: Frontend production build
+      - name: Production build
         working-directory: apps/web
         run: npm run build
+      - name: Audit
+        working-directory: apps/web
+        run: npm audit

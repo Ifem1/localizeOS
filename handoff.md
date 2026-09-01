@@ -9,6 +9,29 @@
 - **Next exact action:** Deploy through StudioNet Studio/CLI project flow; RPC connectivity currently fails from this environment.
 - **Known blockers:** StudioNet RPC fetch fails; GitHub is now pushed successfully to `origin/main`.
 
+### 2026-09-01 — Consensus API and independent CI jobs
+
+**Changed**
+- Replaced free-form `strict_eq` resolution with the installed runtime’s `gl.eq_principle.prompt_non_comparative`, retaining deterministic envelope/index/memory validation after consensus.
+- Added 42-check behavioral preflight assertions.
+- Added live reader components for project policy, case detail/memory, and release detail.
+- Added `genvm-linter==0.11.0` and split GitHub Actions into independent contract and frontend jobs.
+- Added the narrow Windows gltest fixture; it did not resolve the installed runner’s import-time empty-fd-0 failure.
+
+**Verification**
+- `python scripts/preflight.py` — 42/42 PASS.
+- `python -m pytest tests/direct -q` — 4 passed.
+- `gltest tests/test_localizeos.py -q` — 3 failures before contract instantiation under GenVM v0.2.16 with `DecodingError: unexpected end of memory`.
+- Frontend typecheck/lint — PASS; frontend tests — 1 passed; build — PASS.
+- `genvm-lint check contracts/localizeos.py` — lint passed with return annotations warnings; SDK validation could not complete because the Windows cache returned `WinError 5: Access is denied`.
+
+**Reality check**
+- Subjective consensus is now using the supported non-comparative principle rather than strict free-form equality.
+- Runtime contract behavior, StudioNet deployment, live lifecycle, VecDB receipt, Vercel deployment, and CI green status remain unproven.
+
+**Next exact action**
+- Commit and push these changes; use GitHub Actions/Linux or another working GenLayer environment for runtime proof.
+
 ### 2026-09-01 — Direct Mode repair attempt, behavioral preflight, and live route readers
 
 **Changed**
