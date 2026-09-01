@@ -489,3 +489,9 @@ Copy this block for every meaningful work unit:
 - Added Direct Mode tests for captured validator execution, same-project/same-locale memory retrieval, cross-project and cross-locale isolation, and superseded-memory exclusion.
 - Fixed `preview_memory()` to consume v0.2.16 `VecDBElement` results and exclude superseded approved cases, matching decision-time retrieval validity.
 - Verification pending on the next CI run.
+## 2026-09-01 — Add frontend validation test coverage
+
+- Added `apps/web/lib/genlayer/validation.ts` with deterministic digest, HTTPS, placeholder/candidate, mutation-state, release-eligibility and malformed-read guards.
+- Added 10 focused frontend tests covering exact digests, HTTPS, placeholders, candidate bounds, status gating, release selection and malformed responses. Existing wallet test remains included.
+- The queue currently retains equivalent inline checks; the next cleanup can replace those duplicates while preserving the tested helper behavior.
+- Verification pending on the next CI run.
