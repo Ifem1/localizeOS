@@ -388,3 +388,20 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Push and inspect the next Linux Direct Mode lifecycle run.
+
+### 2026-09-01 — Pin consensus response format
+
+**Goal**
+- Make the consensus proposal type explicit across the runtime and Direct Mode mocks.
+
+**Changed**
+- Set `response_format="text"` on `gl.nondet.exec_prompt`, so the strict canonical JSON parser receives text rather than a decoded dictionary.
+
+**Verification**
+- GitHub run `33512249872`: frontend and all static gates passed; Direct Mode reached prompt execution but failed 4 lifecycle tests because the runtime returned a dict under the implicit response format.
+
+**Reality check**
+- The leader proposal remains strictly parsed and validated after this explicit text-format request. Lifecycle proof is pending CI rerun.
+
+**Next exact action**
+- Push and inspect the next Direct Mode lifecycle run.
