@@ -405,3 +405,20 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Push and inspect the next Direct Mode lifecycle run.
+
+### 2026-09-01 — Normalize structured prompt results
+
+**Goal**
+- Handle the runtime's structured Direct Mode prompt result without weakening canonical decision validation.
+
+**Changed**
+- Normalize a supported dict result from `gl.nondet.exec_prompt` directly, while parsing string results as JSON and canonicalizing both before validator consensus and deterministic envelope checks.
+
+**Verification**
+- GitHub run `33512743151`: frontend and all static contract gates passed; Direct Mode reached prompt execution but failed 4 lifecycle tests because the mock transport returned a dict despite the text response hint.
+
+**Reality check**
+- The decision envelope remains bounded and exact-key validated after normalization; no invented candidate or memory reference is accepted.
+
+**Next exact action**
+- Push and inspect the next Linux Direct Mode lifecycle run.
