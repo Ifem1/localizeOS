@@ -469,3 +469,8 @@ Copy this block for every meaningful work unit:
 - Actions run `33529921775` confirmed the contract path was still progressing but frontend lint failed on `CaseRecordView`'s inline refresh callback.
 - Stabilized that callback with `useCallback` and made the effect depend on it. No deployment work started.
 - Next: push and inspect the replacement workflow.
+## 2026-09-01 — Fix remaining workspace hook dependency
+
+- Actions run `33530138084` showed the case-detail hook fix was correct but `LiveWorkspace` still had an effect dependency array of `[]` after converting `refresh` to `useCallback`.
+- Updated that effect to depend on `refresh`; this should clear the reported lint finding while preserving the live project reread behavior.
+- Next: push and inspect the replacement CI run.
