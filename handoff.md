@@ -464,3 +464,8 @@ Copy this block for every meaningful work unit:
 - Actions run `33529739246` checked the new frontend lifecycle commit. Dependency installation and typecheck passed; lint failed only because `LiveWorkspace` used an unstable `refresh` function in an effect dependency.
 - Converted `refresh` to `useCallback` with stable dependencies. Contract job had not yet reached a failure at the time of this correction.
 - Next: push the lint fix and inspect the complete replacement Actions run.
+## 2026-09-01 — Fix case detail hook lint
+
+- Actions run `33529921775` confirmed the contract path was still progressing but frontend lint failed on `CaseRecordView`'s inline refresh callback.
+- Stabilized that callback with `useCallback` and made the effect depend on it. No deployment work started.
+- Next: push and inspect the replacement workflow.
