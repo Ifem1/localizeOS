@@ -1,7 +1,7 @@
 # {
 #   "Seq": [
-#     { "Depends": "py-lib-genlayer-embeddings:0bmbm3cyfwxsyh454z53vxqjf47wz2q7smcqp1q4g4a6k2kidnyk" },
-#     { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
+#     { "Depends": "py-lib-genlayer-embeddings:2rb2dcp01mw9khpg3tg2jasx4f82mcsy3eg08rjj1zdcm9q350" },
+#     { "Depends": "py-genlayer:9b8kjyda2ycxyq4ea6g4yfpnydxhd52gqba5rb8dw7krkh5mn9p0" }
 #   ]
 # }
 """LocalizeOS authoritative contract.
@@ -43,13 +43,13 @@ class Project:
     style_digest: str
     glossary_url: str
     glossary_digest: str
-    policy_version: int
-    case_count: int
+    policy_version: u32
+    case_count: u32
 
 @allow_storage
 @dataclass
 class Case:
-    project_id: int
+    project_id: u256
     locale: str
     string_key: str
     source_text: str
@@ -57,13 +57,13 @@ class Case:
     candidates_json: str
     artifact_ref: str
     artifact_digest: str
-    policy_version: int
+    policy_version: u32
     style_url: str
     style_digest: str
     glossary_url: str
     glossary_digest: str
     status: str
-    approved_index: int
+    approved_index: i32
     memory_ids_json: str
     rationale: str
     superseded_by: u256
@@ -71,15 +71,15 @@ class Case:
 @allow_storage
 @dataclass
 class Release:
-    project_id: int
+    project_id: u256
     locale: str
-    policy_version: int
+    policy_version: u32
     manifest_url: str
     manifest_digest: str
     required_case_ids_json: str
     commitment_json: str
     commitment_digest: str
-    sealed_at: int
+    sealed_at: u64
 
 @allow_storage
 @dataclass
@@ -114,7 +114,7 @@ class LocalizeOS(gl.Contract):
         assert value.startswith("https://") and "\n" not in value and "\r" not in value, f"invalid {label}"
 
     @gl.public.write
-    def create_project(self, name: str, source_locale: str, style_url: str, style_digest: str, glossary_url: str, glossary_digest: str) -> int:
+    def create_project(self, name: str, source_locale: str, style_url: str, style_digest: str, glossary_url: str, glossary_digest: str) -> u256:
         self._bounded(name, MAX_NAME, "name"); self._bounded(source_locale, 16, "source locale")
         self._https(style_url, "style URL"); self._https(glossary_url, "glossary URL")
         self._digest(style_digest, "style digest"); self._digest(glossary_digest, "glossary digest")
@@ -123,7 +123,7 @@ class LocalizeOS(gl.Contract):
         return pid
 
     @gl.public.write
-    def update_language_assets(self, project_id: int, style_url: str, style_digest: str, glossary_url: str, glossary_digest: str) -> int:
+    def update_language_assets(self, project_id: u256, style_url: str, style_digest: str, glossary_url: str, glossary_digest: str) -> u32:
         p = self.projects[project_id]; assert p.owner == str(gl.message.sender_address), "only owner"
         self._https(style_url, "style URL"); self._https(glossary_url, "glossary URL")
         self._digest(style_digest, "style digest"); self._digest(glossary_digest, "glossary digest")
@@ -131,7 +131,7 @@ class LocalizeOS(gl.Contract):
         p.policy_version += 1; return p.policy_version
 
     @gl.public.write
-    def open_case(self, project_id: int, locale: str, string_key: str, source_text: str, context_text: str, candidates_json: str, artifact_ref: str, artifact_digest: str) -> int:
+    def open_case(self, project_id: u256, locale: str, string_key: str, source_text: str, context_text: str, candidates_json: str, artifact_ref: str, artifact_digest: str) -> u256:
         p = self.projects[project_id]; assert p.owner == str(gl.message.sender_address), "only owner"
         self._bounded(locale, 16, "locale"); self._bounded(string_key, 128, "string key")
         self._bounded(source_text, MAX_TEXT, "source text"); self._bounded(context_text, MAX_TEXT, "context")
@@ -146,13 +146,13 @@ class LocalizeOS(gl.Contract):
         return cid
 
     @gl.public.view
-    def get_case(self, case_id: int): return self.cases.get(case_id)
+    def get_case(self, case_id: u256) -> Case | None: return self.cases.get(case_id)
 
     @gl.public.view
-    def get_release(self, release_id: int): return self.releases.get(release_id)
+    def get_release(self, release_id: u256) -> Release | None: return self.releases.get(release_id)
 
     @gl.public.view
-    def get_project(self, project_id: int): return self.projects.get(project_id)
+    def get_project(self, project_id: u256) -> Project | None: return self.projects.get(project_id)
 
     def _candidate_count(self, case: Case) -> int:
         values = json.loads(case.candidates_json)
@@ -202,7 +202,7 @@ class LocalizeOS(gl.Contract):
         return ("STYLE:\n" + style + "\nGLOSSARY:\n" + glossary)
 
     @gl.public.write
-    def resolve_case(self, case_id: int) -> str:
+    def resolve_case(self, case_id: u256) -> str:
         case = self.cases[case_id]
         assert case.status == Status.ESCALATED.value, "case is not unresolved"
         case.status = Status.PENDING.value
@@ -239,7 +239,7 @@ class LocalizeOS(gl.Contract):
         return case.status
 
     @gl.public.write
-    def supersede_case(self, case_id: int, replacement_case_id: int):
+    def supersede_case(self, case_id: u256, replacement_case_id: u256) -> None:
         old = self.cases[case_id]; replacement = self.cases[replacement_case_id]
         assert self.projects[old.project_id].owner == str(gl.message.sender_address), "only owner"
         assert old.status == Status.APPROVED.value and replacement_case_id != case_id and replacement.project_id == old.project_id, "invalid supersession"
@@ -249,7 +249,7 @@ class LocalizeOS(gl.Contract):
         old.superseded_by = replacement_case_id
 
     @gl.public.write
-    def seal_release(self, project_id: int, locale: str, manifest_url: str, manifest_digest: str, required_case_ids_json: str) -> int:
+    def seal_release(self, project_id: u256, locale: str, manifest_url: str, manifest_digest: str, required_case_ids_json: str) -> u256:
         p = self.projects[project_id]; assert p.owner == str(gl.message.sender_address), "only owner"
         self._bounded(locale, 16, "locale"); self._https(manifest_url, "manifest URL"); self._digest(manifest_digest, "manifest digest")
         self._bounded(required_case_ids_json, MAX_JSON, "required cases")
@@ -293,13 +293,13 @@ class LocalizeOS(gl.Contract):
         return rid
 
     @gl.public.view
-    def list_projects(self, offset: int = 0, limit: int = 20):
+    def list_projects(self, offset: u32 = u32(0), limit: u32 = u32(20)) -> dict[str, Project]:
         assert 0 <= offset <= 10000 and 1 <= limit <= 50, "invalid pagination"
         ids = sorted(self.projects.keys())[offset:offset + limit]
         return {str(i): self.projects[i] for i in ids}
 
     @gl.public.view
-    def list_cases(self, project_id: int, locale: str, offset: int = 0, limit: int = 20):
+    def list_cases(self, project_id: u256, locale: str, offset: u32 = u32(0), limit: u32 = u32(20)) -> dict[str, Case]:
         assert project_id in self.projects and 0 <= offset <= 10000 and 1 <= limit <= 50, "invalid pagination"
         self._bounded(locale, 16, "locale")
         ids = [i for i in sorted(self.cases.keys()) if self.cases[i].project_id == project_id and self.cases[i].locale == locale]
@@ -307,7 +307,7 @@ class LocalizeOS(gl.Contract):
         return {str(i): self.cases[i] for i in ids}
 
     @gl.public.view
-    def list_releases(self, project_id: int, locale: str, offset: int = 0, limit: int = 20):
+    def list_releases(self, project_id: u256, locale: str, offset: u32 = u32(0), limit: u32 = u32(20)) -> dict[str, Release]:
         assert project_id in self.projects and 0 <= offset <= 10000 and 1 <= limit <= 50, "invalid pagination"
         self._bounded(locale, 16, "locale")
         ids = [i for i in sorted(self.releases.keys()) if self.releases[i].project_id == project_id and self.releases[i].locale == locale]
@@ -315,7 +315,7 @@ class LocalizeOS(gl.Contract):
         return {str(i): self.releases[i] for i in ids}
 
     @gl.public.view
-    def preview_memory(self, case_id: int, k: int = 8):
+    def preview_memory(self, case_id: u256, k: u32 = u32(8)) -> list[dict[str, object]]:
         case = self.cases[case_id]; assert 1 <= k <= 8, "invalid memory bound"
         matches = self.vectors.knn(self._embed(self._memory_text(case)), k)
         result = []

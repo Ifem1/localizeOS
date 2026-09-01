@@ -9,6 +9,28 @@
 - **Next exact action:** Deploy through StudioNet Studio/CLI project flow; RPC connectivity currently fails from this environment.
 - **Known blockers:** StudioNet RPC fetch fails; GitHub is now pushed successfully to `origin/main`.
 
+### 2026-09-01 — GenVM storage types and toolchain pinning
+
+**Changed**
+- Converted persistent dataclass integers to GenLayer-sized types: `u256` IDs, `u32` versions/counts, `i32` approved-index sentinel, and `u64` timestamps.
+- Added public view return annotations where supported.
+- Replaced free-form strict equality with `gl.eq_principle.prompt_non_comparative` for subjective resolution.
+- Pinned `genlayer-py==0.18.0`, `genvm-linter==0.11.0`, exact current dependency hashes, and CI GenVM v0.2.17.
+- Added live reader components and the independent contract/frontend CI jobs.
+
+**Verification**
+- `genvm-lint check contracts/localizeos.py` — lint phase PASS (3 checks); SDK validation blocked locally by Windows `WinError 5` while loading the cached embeddings artifact.
+- `python scripts/preflight.py` — 43/43 PASS.
+- `python -m pytest tests/direct -q` — 4 passed.
+- `gltest tests/test_localizeos.py -q` — 3 failures before contract import with empty fd-0 calldata under GenVM v0.2.16; the same bootstrap issue was observed under v0.2.12.
+
+**Reality check**
+- No Direct Mode lifecycle execution, StudioNet deployment, live receipts, or Vercel deployment is proven.
+- Current contract storage annotations now address the previously reported unsupported Python `int` validation error.
+
+**Next exact action**
+- Commit and push the type/toolchain/consensus changes; verify the contract job in GitHub Actions.
+
 ### 2026-09-01 — Consensus API and independent CI jobs
 
 **Changed**
