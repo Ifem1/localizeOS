@@ -1,0 +1,43 @@
+name: Verify LocalizeOS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - name: Install Python test dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Compile contract
+        run: python -m compileall -q contracts scripts tests
+      - name: Contract preflight
+        run: python scripts/preflight.py
+      - name: Direct Mode contract tests
+        run: gltest tests/test_localizeos.py -q
+      - name: Install frontend dependencies
+        working-directory: apps/web
+        run: npm ci
+      - name: Frontend typecheck
+        working-directory: apps/web
+        run: npm run typecheck
+      - name: Frontend lint
+        working-directory: apps/web
+        run: npm run lint
+      - name: Frontend tests
+        working-directory: apps/web
+        run: npm test
+      - name: Frontend production build
+        working-directory: apps/web
+        run: npm run build

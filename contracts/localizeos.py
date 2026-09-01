@@ -135,7 +135,7 @@ class LocalizeOS(gl.Contract):
         p = self.projects[project_id]; assert p.owner == str(gl.message.sender_address), "only owner"
         self._bounded(locale, 16, "locale"); self._bounded(string_key, 128, "string key")
         self._bounded(source_text, MAX_TEXT, "source text"); self._bounded(context_text, MAX_TEXT, "context")
-        self._bounded(candidates_json, MAX_JSON, "candidates"); self._bounded(artifact_ref, 512, "artifact ref"); self._digest(artifact_digest, "artifact digest")
+        self._bounded(candidates_json, MAX_JSON, "candidates"); self._https(artifact_ref, "artifact ref"); self._digest(artifact_digest, "artifact digest")
         candidates = json.loads(candidates_json); assert isinstance(candidates, list) and 1 < len(candidates) <= MAX_CANDIDATES, "invalid candidates"
         for c in candidates: self._bounded(c, MAX_TEXT, "candidate")
         # Placeholder parity is deterministic and precedes consensus.
@@ -244,7 +244,8 @@ class LocalizeOS(gl.Contract):
     @gl.public.write
     def seal_release(self, project_id: int, locale: str, manifest_url: str, manifest_digest: str, required_case_ids_json: str) -> int:
         p = self.projects[project_id]; assert p.owner == str(gl.message.sender_address), "only owner"
-        self._bounded(locale, 16, "locale"); self._bounded(manifest_url, 512, "manifest URL"); self._digest(manifest_digest, "manifest digest")
+        self._bounded(locale, 16, "locale"); self._https(manifest_url, "manifest URL"); self._digest(manifest_digest, "manifest digest")
+        self._bounded(required_case_ids_json, MAX_JSON, "required cases")
         required = json.loads(required_case_ids_json)
         assert isinstance(required, list) and 0 < len(required) <= 128 and all(isinstance(cid, int) and not isinstance(cid, bool) for cid in required), "invalid required cases"
         for index, cid in enumerate(required):

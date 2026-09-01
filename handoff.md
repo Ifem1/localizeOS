@@ -9,6 +9,36 @@
 - **Next exact action:** Deploy through StudioNet Studio/CLI project flow; RPC connectivity currently fails from this environment.
 - **Known blockers:** StudioNet RPC fetch fails; GitHub is now pushed successfully to `origin/main`.
 
+### 2026-09-01 00:15 +01:00 — Contract URL bounds, CI, and clean-checkout verification
+
+**Goal**
+- Apply the remaining manifest validation requirements, add CI, and verify the pushed repository from a fresh clone.
+
+**Changed**
+- `seal_release` now requires HTTPS manifests and bounds `required_case_ids_json` before parsing.
+- Artifact references are consistently HTTPS-validated.
+- Updated release model documentation for immutable commitment fields.
+- Added `.github/workflows/verify.yml` covering Python compilation, preflight, Direct Mode, npm ci, frontend checks and build.
+
+**Verification**
+- `python -m compileall -q contracts scripts tests` — local pass.
+- `python scripts/preflight.py` — PASS.
+- `python -m pytest tests/direct -q` — 4 passed.
+- Frontend typecheck/lint — PASS; Node tests — 1 passed; production build — PASS.
+- `npm audit --omit=dev` — 0 vulnerabilities in the working checkout.
+- Fresh clone from `origin/main` succeeded and preflight passed, but compileall could not write `__pycache__` in the restricted clone location; fresh-clone `npm ci` hit Windows `ENOTEMPTY` removing `node_modules\\viem\\chains`, so clean-clone npm binaries were unavailable.
+
+**Reality check**
+- No StudioNet deployment, contract address, lifecycle hashes, VecDB live receipt, or Vercel URL exists.
+- CI is configured to run the required gates in GitHub’s clean Ubuntu environment.
+
+**Blockers / risks**
+- StudioNet RPC/keystore authentication and Direct Mode Windows stdin bootstrap remain unresolved.
+- Local filesystem/npm locking prevented a complete fresh-clone execution on this host.
+
+**Next exact action**
+- Push this commit and use GitHub Actions or a working GenLayer environment for final live proof.
+
 ### 2026-08-31 — Release-gate hardening
 
 **Goal**

@@ -251,7 +251,7 @@ Required conceptual records:
 
 - Project { owner, name, source_locale, style_url, style_digest, glossary_url, glossary_digest, policy_version, case_count }
 - LocaleCase { project_id, locale, policy_version, string_key, source_text, context_text, candidates_json, artifact_ref, artifact_digest, status, approved_index, memory_ids_json, rationale }
-- Release { project_id, locale, policy_version, manifest_url, manifest_digest, required_case_ids_json, sealed_at }
+- Release { project_id, locale, policy_version, manifest_url, manifest_digest, required_case_ids_json, commitment_json, commitment_digest, sealed_at }
 - VectorPointer { case_id, project_id, locale_hash }
 
 ### Status vocabulary
