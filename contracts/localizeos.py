@@ -88,6 +88,14 @@ class VectorPointer:
     project_id: u256
     locale_hash: u256
 
+@allow_storage
+@dataclass
+class MemoryPreview:
+    case_id: u256
+    distance: str
+    policy_version: u32
+    status: str
+
 class LocalizeOS(gl.Contract):
     projects: TreeMap[u256, Project]
     cases: TreeMap[u256, Case]
@@ -315,7 +323,7 @@ class LocalizeOS(gl.Contract):
         return {str(i): self.releases[i] for i in ids}
 
     @gl.public.view
-    def preview_memory(self, case_id: u256, k: u32 = u32(8)) -> list[dict[str, object]]:
+    def preview_memory(self, case_id: u256, k: u32 = u32(8)) -> list[MemoryPreview]:
         case = self.cases[case_id]; assert 1 <= k <= 8, "invalid memory bound"
         matches = self.vectors.knn(self._embed(self._memory_text(case)), k)
         result = []
@@ -324,5 +332,5 @@ class LocalizeOS(gl.Contract):
                 continue
             prior = self.cases.get(pointer.case_id)
             if prior is not None and prior.status == Status.APPROVED.value:
-                result.append({"case_id": pointer.case_id, "distance": distance, "policy_version": prior.policy_version, "status": prior.status})
+                result.append(MemoryPreview(pointer.case_id, str(distance), prior.policy_version, prior.status))
         return result[:k]

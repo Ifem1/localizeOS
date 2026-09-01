@@ -284,5 +284,14 @@ Copy this block for every meaningful work unit:
 **Blockers / risks**
 - Exact GenVM/SDK runtime compatibility must be verified during implementation; do not assume documentation alone proves deployment.
 
+**CI repair — 2026-09-01**
+- Corrected the host test dependency set to `genlayer-test==0.29.2` with `genlayer-py==0.16.3` and added CI `pip check`.
+- Switched frontend tests to `tsx --test`; the frontend job passed install, typecheck, lint, tests, build and audit in run `33503886466`.
+- Aligned the contract dependency header and CI runner selection with the published GenVM `v0.2.16` bundle.
+- Fixed GenVM schema extraction by replacing the unsupported `list[dict[str, object]]` public return from `preview_memory` with a typed `MemoryPreview` result.
+
+**Current blocker**
+- Run `33503886466` still needs to re-run after the schema-safe return fix; no deployment work was attempted in this pass.
+
 **Next exact action**
-- Scaffold the repo and implement deterministic contract types/state plus direct tests.
+- Push the schema fix, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
