@@ -1,4 +1,6 @@
 "use client";
+/* The initial read is an external contract synchronization, not derived state. */
+/* eslint-disable react-hooks/set-state-in-effect */
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { CONTRACT_ADDRESS } from "../lib/genlayer/config";

@@ -1,4 +1,6 @@
 "use client";
+/* Reads synchronize UI state with the external contract after async completion. */
+/* eslint-disable react-hooks/set-state-in-effect */
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { listCases, listReleases, parseJson, previewMemory, readCase, readProject, readRelease, type CaseRecord, type ProjectRecord, type ReleaseRecord } from "../lib/genlayer/data-source";

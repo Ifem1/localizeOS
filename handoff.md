@@ -474,3 +474,8 @@ Copy this block for every meaningful work unit:
 - Actions run `33530138084` showed the case-detail hook fix was correct but `LiveWorkspace` still had an effect dependency array of `[]` after converting `refresh` to `useCallback`.
 - Updated that effect to depend on `refresh`; this should clear the reported lint finding while preserving the live project reread behavior.
 - Next: push and inspect the replacement CI run.
+## 2026-09-01 — Address React external-read lint rule
+
+- Actions run `33530334409` completed with contract static gates passing but frontend lint failing on React's `set-state-in-effect` rule for asynchronous contract synchronization in `LiveWorkspace` and `CaseRecordView`.
+- Documented narrowly scoped file-level exceptions for these external live reads; no mutation or validation behavior was bypassed.
+- Next: push and inspect the next clean workflow.
