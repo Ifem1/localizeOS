@@ -295,3 +295,26 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Update Direct Mode assertions to use typed dataclass attributes, push, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
+
+### 2026-09-01 — Contract lifecycle coverage expansion
+
+**Goal**
+- Deepen contract-level coverage for consensus outcomes, policy pinning, authorization, supersession and release commitments.
+
+**Changed**
+- Copied storage-backed resolution inputs into local immutable values before nondeterministic execution.
+- Added Direct Mode cases for approval, repeat-resolution rejection, ABSTAIN, policy-owner authorization, policy snapshot immutability, supersession, release commitment hashing and stale-policy release rejection.
+- Added Direct Mode evidence mocks for policy fetches and bounded LLM decision envelopes.
+
+**Verification**
+- `python -m compileall -q contracts scripts tests` — PASS.
+- `python scripts/preflight.py` — 43/43 PASS.
+- `python -m pytest tests/direct -q` — 4 passed.
+- `gltest tests/test_localizeos.py -q` — NOT RUN successfully on Windows; the installed runner still fails before contract import with `DecodingError: unexpected end of memory`. Linux CI remains the authoritative Direct Mode environment.
+
+**Reality check**
+- New lifecycle tests are committed locally but not yet proven in CI.
+- No deployment work was attempted.
+
+**Next exact action**
+- Push this lifecycle coverage, inspect GitHub Actions, and fix any Linux Direct Mode/runtime failures.
