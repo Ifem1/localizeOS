@@ -336,3 +336,21 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Push the web API compatibility fix and inspect the complete Linux Direct Mode lifecycle result.
+
+### 2026-09-01 — Correct GenVM web namespace
+
+**Goal**
+- Correct the validator web-evidence namespace identified by Linux Direct Mode.
+
+**Changed**
+- Updated policy evidence fetching from `gl.nondet.render` to the installed GenVM 0.2.16 API `gl.nondet.web.render`.
+
+**Verification**
+- GitHub run `33510617711`: frontend, lint/validation and preflight passed; Direct Mode failed 4 tests because `gl.nondet.render` is not exported directly by the runtime.
+- Local compile/preflight/pure tests passed; Windows Direct Mode remains blocked before contract import by the known empty-stdin decoder error.
+
+**Reality check**
+- The contract now targets the runtime's actual web API module; the expanded lifecycle remains pending CI proof.
+
+**Next exact action**
+- Push and inspect the next Linux Direct Mode run.
