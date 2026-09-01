@@ -448,3 +448,14 @@ Copy this block for every meaningful work unit:
 - Contract: dependency installation and `pip check` passed; compile passed; GenVM lint reported 3 checks passed and validation passed (13 methods: 7 views, 6 writes); preflight 43/43; pure tests 4 passed; Direct Mode 8 passed in 84.52 seconds.
 - Frontend: npm ci, typecheck, lint, test (1 passed), production build, and npm audit (0 vulnerabilities) passed.
 - This pass did not attempt StudioNet, Vercel, or live deployment. Next work is the deeper contract test expansion/frontend lifecycle pass requested by the owner.
+## 2026-09-01 — Begin live frontend lifecycle pass
+
+- Expanded typed frontend contract records to include policy snapshots, candidates, rationale, memory IDs and supersession fields.
+- Added persistent selected-project state and live project links from the workspace; removed the policy route's hardcoded project ID 1.
+- Replaced static policy, queue, cases and releases pages with live selectors/forms. Added real policy update, case opening with client placeholder/digest/HTTPS checks, case list, case detail resolution action, and release checklist/sealing flow. Added live release list and receipt detail rendering.
+- Verification pending: frontend typecheck/lint/tests/build and review of any route/runtime issues.
+## 2026-09-01 — Frontend verification environment and supersession action
+
+- Added an owner-facing supersession control to approved case detail; it calls `supersede_case` and rereads the case after finalized execution.
+- Local `npm ci` encountered a Windows `ENOTEMPTY` cleanup failure in generated `node_modules`; no tracked files were affected. The clean Linux Actions environment remains the authoritative frontend toolchain.
+- Frontend checks are pending on the next pushed commit; deployment remains intentionally deferred until this pass’s local/CI verification is complete.

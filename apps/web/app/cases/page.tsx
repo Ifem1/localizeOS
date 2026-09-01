@@ -1,5 +1,7 @@
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import SiteHeader from "../../components/site-header";
-
-export default function Cases() {
-  return <main className="shell"><SiteHeader /><section className="workspace"><div className="eyebrow">DISAGREEMENT DESK · CONSENSUS</div><h1>No open cases.</h1><p className="lede">Consensus decisions, abstentions and receipts are read directly from the contract.</p><div className="empty-state"><strong>Live state unavailable</strong><p>Configure NEXT_PUBLIC_LOCALIZEOS_CONTRACT to inspect authoritative case state.</p></div></section></main>;
-}
+import ProjectSelector from "../../components/project-selector";
+import { listCases, type CaseRecord } from "../../lib/genlayer/data-source";
+export default function Cases() { const [project, setProject] = useState(0); const [locale, setLocale] = useState("fr"); const [items, setItems] = useState<Record<string, CaseRecord>>({}); const [message, setMessage] = useState("Select a project to inspect live cases."); useEffect(() => { if (!project) return; void listCases(project, locale).then((r) => r.state === "ready" ? (setItems(r.value), setMessage(Object.keys(r.value).length ? "" : "No cases for this project and locale.")) : setMessage(r.message)); }, [project, locale]); return <main className="shell"><SiteHeader /><section className="workspace"><div className="eyebrow">DISAGREEMENT DESK · CONSENSUS</div><h1>Cases</h1><ProjectSelector value={project} onChange={setProject} /><label>Locale<input value={locale} onChange={(e) => setLocale(e.target.value)} /></label><p className="live-message">{message}</p><div className="live-record">{Object.entries(items).map(([id, item]) => <p key={id}><Link href={`/cases/${id}`}><strong>Case {id}</strong></Link> · {item.string_key} · {item.status} · policy v{item.policy_version}</p>)}</div></section></main>; }
