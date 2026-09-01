@@ -354,3 +354,20 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Push and inspect the next Linux Direct Mode run.
+
+### 2026-09-01 — Correct eager web evidence evaluation
+
+**Goal**
+- Fix the remaining Direct Mode web evidence invocation mismatch.
+
+**Changed**
+- Removed the extra `.get()` calls from `gl.nondet.web.render`; GenVM's eager API already returns the decoded string, including under Direct Mode mocks.
+
+**Verification**
+- GitHub run `33511181717`: frontend and all static contract gates passed; Direct Mode reached the web call and failed 4 tests because the eager result was a string and was called with `.get()`.
+
+**Reality check**
+- The evidence call now uses the runtime's eager return contract. New Direct Mode proof is pending.
+
+**Next exact action**
+- Push and inspect the next Linux lifecycle run.

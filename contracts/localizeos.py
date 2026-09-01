@@ -201,8 +201,8 @@ class LocalizeOS(gl.Contract):
     def _policy_evidence(self, style_url: str, style_digest: str, glossary_url: str, glossary_digest: str) -> str:
         self._https(style_url, "style URL"); self._https(glossary_url, "glossary URL")
         # GenVM 0.2.16 exposes validator web evidence through nondet.web.render.
-        style = gl.nondet.web.render(style_url, mode="text").get()
-        glossary = gl.nondet.web.render(glossary_url, mode="text").get()
+        style = gl.nondet.web.render(style_url, mode="text")
+        glossary = gl.nondet.web.render(glossary_url, mode="text")
         assert isinstance(style, str) and 0 < len(style) <= MAX_POLICY_CONTENT, "invalid style evidence"
         assert isinstance(glossary, str) and 0 < len(glossary) <= MAX_POLICY_CONTENT, "invalid glossary evidence"
         assert hashlib.sha256(style.encode()).hexdigest() == style_digest, "style digest mismatch"
