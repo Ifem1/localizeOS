@@ -489,6 +489,26 @@ Copy this block for every meaningful work unit:
 - Added Direct Mode tests for captured validator execution, same-project/same-locale memory retrieval, cross-project and cross-locale isolation, and superseded-memory exclusion.
 - Fixed `preview_memory()` to consume v0.2.16 `VecDBElement` results and exclude superseded approved cases, matching decision-time retrieval validity.
 - Verification pending on the next CI run.
+
+## 2026-09-01 — Deploy exact tested contract to StudioNet
+
+- Deployed `contracts/localizeos.py` from commit `4c486adfeab789baba4c4f34bcd24cd0c9829159` to StudioNet using the configured unlocked development account; no private key was written to the repository.
+- Verified deployment address `0xEC50ef7Ff172376f027C31c7b270EF6c21870536` and transaction `0x0539f6983b5db294e704babdf108c29ecb19024c0ef45040cfa0e9549a9f9d97` from the CLI output.
+- Local canonical contract source SHA-256 is `3ce58788a8505fba515c87c5c5a763b8538b590d3d51b411a0b4a177ced0ccf9`; byte size is `18867`.
+- Deployment schema, receipt normalization, source parity and the live lifecycle remain to be independently captured.
+
+## 2026-09-01 — Verify deployed public schema
+
+- Public JSON-RPC schema retrieval succeeded for `0xEC50ef7Ff172376f027C31c7b270EF6c21870536`.
+- The deployed schema exposes the expected seven writes, including `resolve_case`, plus the project, case, release, pagination and memory views.
+- The schema call itself did not expose a separate decorator flag; read-only methods are marked `readonly: true` and mutation methods `readonly: false`.
+- Deployment receipt normalization and lifecycle transactions are still pending.
+
+## 2026-09-01 — Capture verified deployment and schema evidence
+
+- Added sanitized `proof/deployment-receipt.json` and `proof/schema-receipt.json` containing the verified source commit/hash, deployed address, deployment transaction, CLI consensus result and public schema method lists.
+- A public `list_projects(0, 10)` read reached the deployed contract and returned an empty object, consistent with no projects yet.
+- No lifecycle receipt was created because signing is blocked by the unavailable keystore password; no live mutation success is claimed.
 ## 2026-09-01 — Add frontend validation test coverage
 
 - Added `apps/web/lib/genlayer/validation.ts` with deterministic digest, HTTPS, placeholder/candidate, mutation-state, release-eligibility and malformed-read guards.

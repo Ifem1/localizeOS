@@ -1,0 +1,13 @@
+{
+  "source_commit": "4c486adfeab789baba4c4f34bcd24cd0c9829159",
+  "contract_source_sha256": "3ce58788a8505fba515c87c5c5a763b8538b590d3d51b411a0b4a177ced0ccf9",
+  "contract_source_bytes": 18867,
+  "network": "StudioNet",
+  "chain_id": 61999,
+  "contract_address": "0xEC50ef7Ff172376f027C31c7b270EF6c21870536",
+  "transaction_hash": "0x0539f6983b5db294e704babdf108c29ecb19024c0ef45040cfa0e9549a9f9d97",
+  "observed_cli_status": "ACCEPTED",
+  "observed_cli_result": "MAJORITY_AGREE",
+  "observed_validator_votes": ["IDLE", "AGREE", "AGREE", "AGREE", "IDLE"],
+  "note": "Deployment success is recorded from the genlayer deploy CLI output. A normalized receipt query requires the configured keystore password and was not fabricated."
+}
