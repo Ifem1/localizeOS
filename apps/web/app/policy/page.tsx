@@ -1,3 +1,4 @@
 import SiteHeader from "../../components/site-header";
+import { ProjectPolicy } from "../../components/live-records";
 
-export default function Policy() { return <main className="shell"><SiteHeader /><section className="workspace"><div className="eyebrow">PROJECT RULES · VERSIONED</div><h1>Glossary & style</h1><p className="lede">The policy version is pinned into every escalated case and release receipt.</p><div className="empty-state"><strong>No project policy loaded</strong><p>Connect this frontend to a deployed LocalizeOS contract to inspect the authoritative glossary and style fingerprints.</p></div></section></main>; }
+export default function Policy() { return <main className="shell"><SiteHeader /><section className="workspace"><div className="eyebrow">PROJECT RULES · VERSIONED</div><h1>Glossary & style</h1><p className="lede">Select a project in the workspace to inspect its pinned policy commitments.</p><ProjectPolicy id={1} /></section></main>; }

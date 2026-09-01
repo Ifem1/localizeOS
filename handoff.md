@@ -9,6 +9,30 @@
 - **Next exact action:** Deploy through StudioNet Studio/CLI project flow; RPC connectivity currently fails from this environment.
 - **Known blockers:** StudioNet RPC fetch fails; GitHub is now pushed successfully to `origin/main`.
 
+### 2026-09-01 — Direct Mode repair attempt, behavioral preflight, and live route readers
+
+**Changed**
+- Verified Python 3.12.10, genlayer-test 0.29.2, genlayer-py 0.18.0; tested cached GenVM v0.2.12 and downloaded/tested v0.2.16.
+- Added narrowly scoped Windows gltest tempfile compatibility fixture based on the Concord pattern; the import failure persists before contract instantiation.
+- Replaced string-only preflight with 42 numbered AST/behavioral checks.
+- Added live reader components for policy, case detail, VecDB preview, release detail, and case listing routes.
+
+**Verification**
+- `python scripts/preflight.py` — 42/42 PASS.
+- `python -m pytest tests/direct -q` — 4 passed.
+- `gltest tests/test_localizeos.py -q` — 3 failures at GenLayer import with `DecodingError: unexpected end of memory`, under both GenVM v0.2.12 and v0.2.16.
+- Frontend typecheck/lint — PASS; Node tests — 1 passed; production build — PASS.
+
+**Reality check**
+- Direct Mode still does not execute a contract test, so approval, abstention, VecDB, supersession, and release runtime behavior remain unproven.
+- No StudioNet deployment, lifecycle transaction, contract address, or Vercel URL is claimed.
+
+**Blockers / risks**
+- The failure occurs in the installed GenLayer SDK’s import-time fd 0 calldata decoder, after gltest injection and before LocalizeOS code can execute; the targeted tempfile workaround did not change it.
+
+**Next exact action**
+- Run the pushed CI workflow in GitHub or continue from a Linux/working GenLayer runner; only then capture runtime and StudioNet proof.
+
 ### 2026-09-01 00:15 +01:00 — Contract URL bounds, CI, and clean-checkout verification
 
 **Goal**
