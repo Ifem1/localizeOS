@@ -318,3 +318,21 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Push this lifecycle coverage, inspect GitHub Actions, and fix any Linux Direct Mode/runtime failures.
+
+### 2026-09-01 — GenVM web-evidence API compatibility
+
+**Goal**
+- Resolve the first Linux runtime failure in the expanded resolution tests.
+
+**Changed**
+- Replaced the unsupported `gl.get_webpage` call with the installed GenVM 0.2.16 API, `gl.nondet.render(..., mode="text").get()`, for validator-fetched policy evidence.
+
+**Verification**
+- GitHub run `33509949631`: GenVM lint/validation, preflight and pure tests passed; expanded Direct Mode failed 4 tests because `gl.get_webpage` is absent from GenVM 0.2.16.
+- Local compile/preflight/pure tests passed; Windows Direct Mode remains blocked before contract import by the known empty-stdin decoder error.
+
+**Reality check**
+- The web evidence path is now aligned to the installed runtime API; Linux Direct Mode proof is pending the next CI run.
+
+**Next exact action**
+- Push the web API compatibility fix and inspect the complete Linux Direct Mode lifecycle result.
