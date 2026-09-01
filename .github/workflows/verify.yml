@@ -19,7 +19,7 @@ jobs:
         run: python -m compileall -q contracts scripts tests
       - name: GenVM lint and validation
         env:
-          GENVM_VERSION: v0.2.17
+          GENVM_VERSION: v0.2.16
         run: genvm-lint check contracts/localizeos.py
       - name: Behavioral preflight
         run: python scripts/preflight.py
@@ -27,7 +27,7 @@ jobs:
         run: python -m pytest tests/direct -q
       - name: Direct Mode contract tests
         env:
-          GENVM_VERSION: v0.2.17
+          GENVM_VERSION: v0.2.16
         run: gltest tests/test_localizeos.py -q
 
   frontend:
