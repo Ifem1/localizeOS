@@ -479,3 +479,13 @@ Copy this block for every meaningful work unit:
 - Actions run `33530334409` completed with contract static gates passing but frontend lint failing on React's `set-state-in-effect` rule for asynchronous contract synchronization in `LiveWorkspace` and `CaseRecordView`.
 - Documented narrowly scoped file-level exceptions for these external live reads; no mutation or validation behavior was bypassed.
 - Next: push and inspect the next clean workflow.
+## 2026-09-01 — CI green before validator/memory expansion
+
+- Final workflow `33530857335` for commit `e67c157` is green on both jobs.
+- Frontend completed npm ci, typecheck, lint, tests, production build and audit; contract completed dependency check, compile, GenVM lint/validation, preflight, pure tests and Direct Mode.
+- The live frontend lifecycle implementation is now CI-proven at build/test level. Next work is explicit validator execution assertions and VecDB project/locale/supersession isolation coverage.
+## 2026-09-01 — Add validator and semantic-memory isolation coverage
+
+- Added Direct Mode tests for captured validator execution, same-project/same-locale memory retrieval, cross-project and cross-locale isolation, and superseded-memory exclusion.
+- Fixed `preview_memory()` to consume v0.2.16 `VecDBElement` results and exclude superseded approved cases, matching decision-time retrieval validity.
+- Verification pending on the next CI run.

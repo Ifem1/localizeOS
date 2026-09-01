@@ -360,10 +360,12 @@ class LocalizeOS(gl.Contract):
         case = self.cases[case_id]; assert 1 <= k <= 8, "invalid memory bound"
         matches = self.vectors.knn(self._embed(self._memory_text(case)), k)
         result = []
-        for distance, pointer in matches:
+        for element in matches:
+            distance = element.distance
+            pointer = element.value
             if pointer.project_id != case.project_id or pointer.locale_hash != self._locale_namespace(case.locale):
                 continue
             prior = self.cases.get(pointer.case_id)
-            if prior is not None and prior.status == Status.APPROVED.value:
+            if prior is not None and prior.status == Status.APPROVED.value and prior.superseded_by == 0:
                 result.append(MemoryPreview(pointer.case_id, str(distance), prior.policy_version, prior.status))
         return result[:k]

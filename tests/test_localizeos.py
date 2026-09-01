@@ -119,3 +119,35 @@ def test_stale_policy_case_cannot_be_released(direct_vm, direct_deploy):
     contract.update_language_assets(project_id, STYLE, new_style, GLOSSARY, new_glossary)
     with pytest.raises(Exception):
         contract.seal_release(project_id, "fr", "https://example.com/release", "b" * 64, json.dumps([case_id]))
+
+def open_case_for(contract, project_id, locale="fr", key="delete"):
+    return contract.open_case(project_id, locale, key, "Delete {name}", "settings", json.dumps(["Supprimer {name}", "Effacer {name}"]), "https://example.com/case", "a" * 64)
+
+def test_validator_execution_and_memory_isolation(direct_vm, direct_deploy):
+    contract = deploy(direct_deploy)
+    project_id = create_project(contract)
+    first = open_case_for(contract, project_id)
+    mock_policy_and_decision(direct_vm, 0)
+    assert contract.resolve_case(first) == "APPROVED"
+    # The generic run_nondet path must expose an actual validator callback in
+    # Direct Mode; this is not a helper-only assertion.
+    assert getattr(direct_vm, "_captured_validators", [])
+    related = contract.preview_memory(open_case_for(contract, project_id, key="remove"), 8)
+    assert any(item.case_id == first and item.status == "APPROVED" for item in related)
+
+    other_project = create_project(contract)
+    cross_project = open_case_for(contract, other_project, key="remove")
+    isolated_locale = open_case_for(contract, project_id, locale="es", key="remove")
+    assert all(item.case_id != first for item in contract.preview_memory(cross_project, 8))
+    assert all(item.case_id != first for item in contract.preview_memory(isolated_locale, 8))
+
+def test_superseded_memory_is_excluded_from_preview(direct_vm, direct_deploy):
+    contract = deploy(direct_deploy)
+    project_id = create_project(contract)
+    old = open_case_for(contract, project_id)
+    replacement = open_case_for(contract, project_id)
+    mock_policy_and_decision(direct_vm, 0); assert contract.resolve_case(old) == "APPROVED"
+    mock_policy_and_decision(direct_vm, 1); assert contract.resolve_case(replacement) == "APPROVED"
+    contract.supersede_case(old, replacement)
+    probe = open_case_for(contract, project_id, key="remove")
+    assert all(item.case_id != old for item in contract.preview_memory(probe, 8))
