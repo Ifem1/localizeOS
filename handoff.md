@@ -371,3 +371,20 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Push and inspect the next Linux lifecycle run.
+
+### 2026-09-01 — Correct GenVM prompt namespace
+
+**Goal**
+- Correct the second GenVM 0.2.16 nondeterministic API namespace identified by Direct Mode.
+
+**Changed**
+- Updated consensus prompting from unsupported `gl.exec_prompt` to `gl.nondet.exec_prompt`.
+
+**Verification**
+- GitHub run `33511658013`: frontend and static contract gates passed; Direct Mode reached policy evidence and then failed 4 tests because `gl.exec_prompt` is not exported directly by GenVM 0.2.16.
+
+**Reality check**
+- Policy fetch and prompt calls now target the runtime's nondeterministic module. Approval/ABSTAIN and release behavior remain pending the next CI run.
+
+**Next exact action**
+- Push and inspect the next Linux Direct Mode lifecycle run.
