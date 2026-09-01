@@ -8,7 +8,7 @@ STYLE_DIGEST = hashlib.sha256(b"style").hexdigest()
 GLOSSARY_DIGEST = hashlib.sha256(b"glossary").hexdigest()
 
 def deploy(direct_deploy):
-    return direct_deploy("contracts/localizeos.py")
+    return direct_deploy("contracts/localizeos.py", sdk_version="v0.2.16")
 
 def create_project(contract):
     return contract.create_project("Acme", "en", STYLE, STYLE_DIGEST, GLOSSARY, GLOSSARY_DIGEST)

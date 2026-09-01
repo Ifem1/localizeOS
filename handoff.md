@@ -291,7 +291,7 @@ Copy this block for every meaningful work unit:
 - Fixed GenVM schema extraction by replacing the unsupported `list[dict[str, object]]` public return from `preview_memory` with a typed `MemoryPreview` result.
 
 **Current blocker**
-- Run `33503886466` still needs to re-run after the schema-safe return fix; no deployment work was attempted in this pass.
+- Run `33504198991` passed the frontend, GenVM lint/validation and preflight stages, but Direct Mode used gltest's default nonexistent `v0.3.0-rc7` bundle because the fixture did not pass the CI-pinned SDK version.
 
 **Next exact action**
-- Push the schema fix, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
+- Pass `sdk_version="v0.2.16"` explicitly to the Direct Mode deployment fixture, push, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
