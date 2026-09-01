@@ -291,7 +291,7 @@ Copy this block for every meaningful work unit:
 - Fixed GenVM schema extraction by replacing the unsupported `list[dict[str, object]]` public return from `preview_memory` with a typed `MemoryPreview` result.
 
 **Current blocker**
-- Run `33504198991` passed the frontend, GenVM lint/validation and preflight stages, but Direct Mode used gltest's default nonexistent `v0.3.0-rc7` bundle because the fixture did not pass the CI-pinned SDK version.
+- Run `33504534475` passed the frontend, GenVM lint/validation, preflight and pure tests, but Direct Mode contract loading failed because the GenVM 0.2.16 embeddings runner imports `google.protobuf`, absent from the host requirements.
 
 **Next exact action**
-- Pass `sdk_version="v0.2.16"` explicitly to the Direct Mode deployment fixture, push, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
+- Add the missing protobuf runtime dependency, push, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
