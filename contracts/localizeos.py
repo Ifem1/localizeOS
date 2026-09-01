@@ -327,7 +327,7 @@ class LocalizeOS(gl.Contract):
         self._bounded(commitment_json, MAX_JSON, "release commitment")
         commitment_digest = hashlib.sha256(commitment_json.encode()).hexdigest()
         rid = self.next_release_id; self.next_release_id += 1
-        raw = getattr(getattr(gl.message, "raw", None), "datetime", "")
+        raw = gl.message_raw["datetime"]
         assert isinstance(raw, str) and raw, "transaction timestamp unavailable"
         sealed_at = int(datetime.fromisoformat(raw.replace("Z", "+00:00")).replace(tzinfo=timezone.utc).timestamp())
         self.releases[rid] = Release(project_id, locale, p.policy_version, manifest_url, manifest_digest, required_case_ids_json, commitment_json, commitment_digest, sealed_at)

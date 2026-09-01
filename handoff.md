@@ -437,3 +437,8 @@ Copy this block for every meaningful work unit:
 - Linux Actions run `33514251509` passed install, compile, GenVM lint/validation, preflight, pure tests, and frontend; Direct Mode passed 7/8 tests.
 - The sole failure was `TypeError: cannot unpack non-iterable VecDBElement object` during the second approved case. Inspected the pinned embeddings runtime and changed retrieval to iterate `VecDBElement` and read `element.value`.
 - Next: push and inspect the next Linux Actions run; no deployment work started.
+## 2026-09-01 — Correct GenVM timestamp access
+
+- Linux Actions run `33515000669` passed frontend and all contract gates through pure tests; Direct Mode again passed 7/8.
+- Release sealing failed only because `gl.message.raw.datetime` is not the v0.2.16 API. Inspected the runtime: timestamp is exposed as `gl.message_raw["datetime"]`; updated the contract accordingly.
+- Next: push and inspect the next full Actions run.
