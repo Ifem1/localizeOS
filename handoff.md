@@ -459,3 +459,8 @@ Copy this block for every meaningful work unit:
 - Added an owner-facing supersession control to approved case detail; it calls `supersede_case` and rereads the case after finalized execution.
 - Local `npm ci` encountered a Windows `ENOTEMPTY` cleanup failure in generated `node_modules`; no tracked files were affected. The clean Linux Actions environment remains the authoritative frontend toolchain.
 - Frontend checks are pending on the next pushed commit; deployment remains intentionally deferred until this pass’s local/CI verification is complete.
+## 2026-09-01 — Fix frontend lint feedback
+
+- Actions run `33529739246` checked the new frontend lifecycle commit. Dependency installation and typecheck passed; lint failed only because `LiveWorkspace` used an unstable `refresh` function in an effect dependency.
+- Converted `refresh` to `useCallback` with stable dependencies. Contract job had not yet reached a failure at the time of this correction.
+- Next: push the lint fix and inspect the complete replacement Actions run.
