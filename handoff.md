@@ -442,3 +442,9 @@ Copy this block for every meaningful work unit:
 - Linux Actions run `33515000669` passed frontend and all contract gates through pure tests; Direct Mode again passed 7/8.
 - Release sealing failed only because `gl.message.raw.datetime` is not the v0.2.16 API. Inspected the runtime: timestamp is exposed as `gl.message_raw["datetime"]`; updated the contract accordingly.
 - Next: push and inspect the next full Actions run.
+## 2026-09-01 — Linux CI green after consensus, VecDB, and timestamp fixes
+
+- Actions run `33515563448` for commit `2738dc7` completed successfully for both jobs.
+- Contract: dependency installation and `pip check` passed; compile passed; GenVM lint reported 3 checks passed and validation passed (13 methods: 7 views, 6 writes); preflight 43/43; pure tests 4 passed; Direct Mode 8 passed in 84.52 seconds.
+- Frontend: npm ci, typecheck, lint, test (1 passed), production build, and npm audit (0 vulnerabilities) passed.
+- This pass did not attempt StudioNet, Vercel, or live deployment. Next work is the deeper contract test expansion/frontend lifecycle pass requested by the owner.
