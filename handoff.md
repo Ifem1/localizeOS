@@ -509,6 +509,11 @@ Copy this block for every meaningful work unit:
 - Added sanitized `proof/deployment-receipt.json` and `proof/schema-receipt.json` containing the verified source commit/hash, deployed address, deployment transaction, CLI consensus result and public schema method lists.
 - A public `list_projects(0, 10)` read reached the deployed contract and returned an empty object, consistent with no projects yet.
 - No lifecycle receipt was created because signing is blocked by the unavailable keystore password; no live mutation success is claimed.
+
+## 2026-09-01 — Make Vercel framework detection explicit
+
+- Added `apps/web/vercel.json` declaring the `nextjs` framework so Vercel does not rely on the import wizard’s blank/incorrect preset detection.
+- The deployment root remains `apps/web`; no application code or environment-variable behavior changed.
 ## 2026-09-01 — Add frontend validation test coverage
 
 - Added `apps/web/lib/genlayer/validation.ts` with deterministic digest, HTTPS, placeholder/candidate, mutation-state, release-eligibility and malformed-read guards.
