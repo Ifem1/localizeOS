@@ -13,5 +13,7 @@ export default function ProjectSelector({ value, onChange }: { value: number; on
   const [projects, setProjects] = useState<Record<string, ProjectRecord>>({});
   const [message, setMessage] = useState("Loading projects…");
   useEffect(() => { readProjects().then((result) => result.state === "ready" ? (setProjects(result.value), setMessage("")) : setMessage(result.message)); }, []);
-  return <div className="project-selector"><label htmlFor="project">Project</label><select id="project" value={value || ""} onChange={(e) => onChange(Number(e.target.value))}><option value="">Select a live project</option>{Object.entries(projects).map(([id, p]) => <option key={id} value={id}>{p.name} · {id}</option>)}</select>{message && <small>{message}</small>}<Link href="/">Create project</Link></div>;
+  useEffect(() => { if (value) return; const saved = Number(globalThis?.localStorage?.getItem("localizeos.project") ?? 0); if (saved > 0) onChange(saved); }, [onChange, value]);
+  function select(id: number) { if (id > 0) globalThis?.localStorage?.setItem("localizeos.project", String(id)); else globalThis?.localStorage?.removeItem("localizeos.project"); onChange(id); }
+  return <div className="project-selector"><label htmlFor="project">Project</label><select id="project" value={value || ""} onChange={(e) => select(Number(e.target.value))}><option value="">Select a live project</option>{Object.entries(projects).map(([id, p]) => <option key={id} value={id}>{p.name} · {id}</option>)}</select>{message && <small>{message}</small>}<Link href="/">Create project</Link></div>;
 }

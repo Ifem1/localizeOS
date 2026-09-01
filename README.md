@@ -19,20 +19,20 @@ Target network: GenLayer StudioNet, chain 61999. Writes are intended to use an i
 
 ## Verification status
 
-Verified locally:
+Verified:
 
 - `python scripts/preflight.py` — PASS
 - `python -m pytest tests/direct -q` — 4 passed
 - `npm run typecheck` — PASS
 - `npm run lint` — PASS
-- `npm test` — 1 passed
+- `npm test` — 11 passed in CI
 - `npm run build` — PASS
 
-GenLayer Direct Mode contract tests are included in `tests/test_localizeos.py`, but currently fail before contract instantiation on this Windows host with `genlayer.py.calldata.DecodingError: unexpected end of memory` while the Direct Mode loader reads injected stdin. StudioNet deployment likewise remains unproven because the RPC request returned `fetch failed`.
+GenLayer Direct Mode contract tests pass in clean Linux CI (`10 passed`). The Windows host still has a local loader error before contract instantiation. StudioNet deployment and the public contract schema are verified; signed lifecycle transactions remain unproven because the configured CLI keystore requires an unavailable password.
 
 ## Deployment evidence
 
-No contract address, deployment transaction, lifecycle transaction hashes, explorer links, or live frontend URL are recorded yet. These fields must remain empty until independently verified. See `DEPLOYMENT.md`, `SUBMISSION.md`, and `proof/README.md`.
+The verified StudioNet contract is `0xEC50ef7Ff172376f027C31c7b270EF6c21870536`, deployed by transaction `0x0539f6983b5db294e704babdf108c29ecb19024c0ef45040cfa0e9549a9f9d97` from source commit `4c486adfeab789baba4c4f34bcd24cd0c9829159` (SHA-256 `3ce58788a8505fba515c87c5c5a763b8538b590d3d51b411a0b4a177ced0ccf9`). No lifecycle hashes or live frontend URL are claimed yet. See `DEPLOYMENT.md`, `SUBMISSION.md`, and `proof/`.
 
 ## Clean-checkout commands
 
