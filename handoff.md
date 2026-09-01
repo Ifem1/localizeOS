@@ -422,3 +422,13 @@ Copy this block for every meaningful work unit:
 
 **Next exact action**
 - Push and inspect the next Linux Direct Mode lifecycle run.
+## 2026-09-01 — Replace unsupported high-level consensus wrapper
+
+- Inspected the pinned GenVM v0.2.16 runtime. `gl.eq_principle.prompt_non_comparative` emits `ExecPromptTemplate`, which the Linux Direct Mode runner reports as unknown.
+- Replaced only that wrapper in `contracts/localizeos.py` with supported `gl.vm.run_nondet`: leader proposes a canonical bounded envelope; validators independently fetch policy evidence and produce their own decision; consensus compares only decision index/ABSTAIN and allowlisted memory IDs, never free-form rationale.
+- Next: run lint/preflight/pure tests and the real Direct Mode suite, then address any runtime incompatibilities.
+## 2026-09-01 — Correct runtime import and preflight expectation
+
+- Local Windows Direct Mode could not import a direct `genlayer.gl.vm` module because the runtime initializes message calldata from stdin; removed that eager import and use the already-exported `gl.vm` namespace instead.
+- Updated behavioral preflight to require `gl.vm.run_nondet` and forbid strict equality for subjective consensus.
+- The next verification must run compile, preflight, lint and Linux Direct Mode; Windows import failure remains an environment-specific runner issue until Linux results are available.

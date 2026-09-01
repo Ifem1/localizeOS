@@ -30,7 +30,7 @@ check("HTTPS validation", "def _https" in source and "self._https(manifest_url" 
 check("candidate bounds", "1 < len(candidates) <= MAX_CANDIDATES" in source)
 check("placeholder invariant", "candidate placeholders differ" in source)
 check("decision allowlist", "memory is not in retrieved allowlist" in source)
-check("subjective consensus API", "gl.eq_principle.prompt_non_comparative" in source and "eq_principle_strict_eq" not in source)
+check("subjective consensus API", "gl.vm.run_nondet" in source and "eq_principle_strict_eq" not in source)
 check("no invented candidate", "never invent" in source.lower() and "approved_index" in source)
 check("policy snapshot", all(field in source for field in ("policy_version", "style_url", "style_digest", "glossary_url", "glossary_digest")))
 check("release commitment hash", "commitment_digest = hashlib.sha256(commitment_json.encode()).hexdigest()" in source)

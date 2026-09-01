@@ -237,13 +237,32 @@ class LocalizeOS(gl.Contract):
             parsed = result if isinstance(result, dict) else json.loads(result)
             return json.dumps(parsed, sort_keys=True, separators=(",", ":"))
 
-        # Rationale is free-form, so validators assess the leader's bounded
-        # decision envelope semantically rather than requiring byte equality.
-        decision_text = gl.eq_principle.prompt_non_comparative(
-            judge,
-            task="Assess whether the proposed JSON decision faithfully applies the supplied policy, candidates, and memory evidence. Accept only if its decision is ABSTAIN or a submitted candidate index and its memory IDs are drawn from the retrieved allowlist.",
-            criteria="The proposed decision must be valid JSON with exactly decision, memory_ids, and reason keys; decision must be ABSTAIN or an in-range submitted candidate index; memory_ids must be a subset of retrieved_memory_ids; no replacement translation may be invented. Rationale wording may differ between validators.",
-        )
+        def validate(leader_result) -> bool:
+            if not isinstance(leader_result, gl.vm.Return):
+                return False
+            try:
+                leader_decision = json.loads(leader_result.calldata)
+                self._validate_decision(case, leader_decision)
+                if not all(x in memory_ids for x in leader_decision["memory_ids"]):
+                    return False
+                # Independently fetch and assess the same evidence.  Only the
+                # bounded decision fields participate in consensus; rationale
+                # is deliberately excluded because it is free-form text.
+                validator_decision = json.loads(judge())
+                self._validate_decision(case, validator_decision)
+                if not all(x in memory_ids for x in validator_decision["memory_ids"]):
+                    return False
+                return (
+                    validator_decision["decision"] == leader_decision["decision"]
+                    and validator_decision["memory_ids"] == leader_decision["memory_ids"]
+                )
+            except Exception:
+                return False
+
+        # Use the runtime's generic leader/validator primitive.  The
+        # high-level prompt equivalence wrapper emits ExecPromptTemplate,
+        # which is not implemented by the pinned v0.2.16 Direct Mode runner.
+        decision_text = gl.vm.run_nondet(judge, validate)
         decision = json.loads(decision_text)
         self._validate_decision(case, decision)
         assert all(memory_id in memory_ids for memory_id in decision["memory_ids"]), "memory is not in retrieved allowlist"
