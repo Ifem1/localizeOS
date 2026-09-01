@@ -432,3 +432,8 @@ Copy this block for every meaningful work unit:
 - Local Windows Direct Mode could not import a direct `genlayer.gl.vm` module because the runtime initializes message calldata from stdin; removed that eager import and use the already-exported `gl.vm` namespace instead.
 - Updated behavioral preflight to require `gl.vm.run_nondet` and forbid strict equality for subjective consensus.
 - The next verification must run compile, preflight, lint and Linux Direct Mode; Windows import failure remains an environment-specific runner issue until Linux results are available.
+## 2026-09-01 — Fix VecDB v0.2.16 retrieval shape
+
+- Linux Actions run `33514251509` passed install, compile, GenVM lint/validation, preflight, pure tests, and frontend; Direct Mode passed 7/8 tests.
+- The sole failure was `TypeError: cannot unpack non-iterable VecDBElement object` during the second approved case. Inspected the pinned embeddings runtime and changed retrieval to iterate `VecDBElement` and read `element.value`.
+- Next: push and inspect the next Linux Actions run; no deployment work started.

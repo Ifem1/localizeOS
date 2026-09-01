@@ -190,7 +190,8 @@ class LocalizeOS(gl.Contract):
     def _memory_candidates(self, case: Case):
         matches = self.vectors.knn(self._embed(self._memory_text(case)), 8)
         allowed = []
-        for distance, pointer in matches:
+        for element in matches:
+            pointer = element.value
             if pointer.project_id != case.project_id or pointer.locale_hash != self._locale_namespace(case.locale):
                 continue
             prior = self.cases.get(pointer.case_id)
