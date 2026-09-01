@@ -17,8 +17,8 @@ def test_public_lifecycle_views_and_project_creation(direct_vm, direct_deploy):
     contract = deploy(direct_deploy)
     project_id = create_project(contract)
     project = contract.get_project(project_id)
-    assert project["name"] == "Acme"
-    assert project["policy_version"] == 1
+    assert project.name == "Acme"
+    assert project.policy_version == 1
     assert str(project_id) in contract.list_projects()
 
 def test_case_snapshot_and_placeholder_guard(direct_vm, direct_deploy):
@@ -26,9 +26,9 @@ def test_case_snapshot_and_placeholder_guard(direct_vm, direct_deploy):
     project_id = create_project(contract)
     case_id = contract.open_case(project_id, "fr", "delete", "Delete {name}", "settings", json.dumps(["Supprimer {name}", "Effacer {name}"]), "https://example.com/case", "a" * 64)
     case = contract.get_case(case_id)
-    assert case["policy_version"] == 1
-    assert case["style_digest"] == STYLE_DIGEST
-    assert case["glossary_digest"] == GLOSSARY_DIGEST
+    assert case.policy_version == 1
+    assert case.style_digest == STYLE_DIGEST
+    assert case.glossary_digest == GLOSSARY_DIGEST
     with pytest.raises(Exception):
         contract.open_case(project_id, "fr", "bad", "Delete {name}", "settings", json.dumps(["Supprimer"]), "https://example.com/case", "a" * 64)
 

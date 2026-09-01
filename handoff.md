@@ -291,7 +291,7 @@ Copy this block for every meaningful work unit:
 - Fixed GenVM schema extraction by replacing the unsupported `list[dict[str, object]]` public return from `preview_memory` with a typed `MemoryPreview` result.
 
 **Current blocker**
-- Run `33504534475` passed the frontend, GenVM lint/validation, preflight and pure tests, but Direct Mode contract loading failed because the GenVM 0.2.16 embeddings runner imports `google.protobuf`, absent from the host requirements.
+- Run `33504940359` passed install, `pip check`, compilation, full GenVM lint/validation, preflight, pure tests and frontend verification. Direct Mode executed successfully but two assertions treated typed `Project`/`Case` return values as dictionaries.
 
 **Next exact action**
-- Add the missing protobuf runtime dependency, push, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
+- Update Direct Mode assertions to use typed dataclass attributes, push, inspect the resulting GitHub Actions run, and continue fixing only contract CI failures until both required jobs are green.
