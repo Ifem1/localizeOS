@@ -1,7 +1,7 @@
 # {
 #   "Seq": [
-#     { "Depends": "py-lib-genlayer-embeddings:2rb2dcp01mw9khpg3tg2jasx4f82mcsy3eg08rjj1zdcm9q350" },
-#     { "Depends": "py-genlayer:9b8kjyda2ycxyq4ea6g4yfpnydxhd52gqba5rb8dw7krkh5mn9p0" }
+#     { "Depends": "py-lib-genlayer-embeddings:0bmbm3cyfwxsyh454z53vxqjf47wz2q7smcqp1q4g4a6k2kidnyk" },
+#     { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
 #   ]
 # }
 """LocalizeOS authoritative contract.
