@@ -1,0 +1,16 @@
+{
+  "url": "https://localize-os.vercel.app/",
+  "deployment_status": "READY",
+  "network": "StudioNet",
+  "chain_id": 61999,
+  "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
+  "observed": [
+    "homepage loaded and reported LIVE",
+    "project 1 Fresh Cycle Verified with 2 cases appeared",
+    "cases route read case 1 and case 2 as APPROVED",
+    "case 2 detail displayed approved index 0 and Memory IDs [1]",
+    "releases route displayed release 1 and commitment digest",
+    "wallet button correctly reported that no injected wallet is installed in the verification browser"
+  ],
+  "write_verification": "not proven in this browser because no injected wallet provider was available"
+}

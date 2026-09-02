@@ -28,11 +28,11 @@ Verified:
 - `npm test` — 11 passed in CI
 - `npm run build` — PASS
 
-GenLayer Direct Mode contract tests pass in clean Linux CI (`10 passed`). StudioNet deployment and the public contract schema are verified, and signed lifecycle evidence is recorded under `proof/`.
+GenLayer Direct Mode contract tests pass in clean Linux CI (`11 passed`). StudioNet deployment and the public contract schema are verified, and signed lifecycle evidence is recorded under `proof/`.
 
 ## Deployment evidence
 
-The verified StudioNet contract is `0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482`, deployed by transaction `0x66abe234d85eba714c165c1925b24a2a9e7d60582555a83eb5e508be55d93855` from source commit `468d406` (SHA-256 `c51413151ce3e5bc5ce8cf61de86d654a0a97fce0488521043b9388288a2d3e0`). The deployed frontend is [localize-os.vercel.app](https://localize-os.vercel.app/). Live project, case, approval, memory-preview and release evidence is recorded under `proof/`. See `DEPLOYMENT.md`, `SUBMISSION.md`, and `proof/`.
+The verified StudioNet contract is `0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482`, deployed by transaction `0x66abe234d85eba714c165c1925b24a2a9e7d60582555a83eb5e508be55d93855` from source commit `468d406d2900da26253e0852421c14ea99e7a188` (SHA-256 `c51413151ce3e5bc5ce8cf61de86d654a0a97fce0488521043b9388288a2d3e0`). The deployed frontend is [localize-os.vercel.app](https://localize-os.vercel.app/) and browser-verified against this contract for live reads. Live project, case, approval, memory-preview and release evidence is recorded under `proof/`. See `DEPLOYMENT.md`, `SUBMISSION.md`, and `proof/`.
 
 ## Clean-checkout commands
 
