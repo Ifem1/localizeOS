@@ -533,3 +533,10 @@ Copy this block for every meaningful work unit:
 - Added narrowly scoped unwrapping for the StudioNet response envelope in `contracts/localizeos.py`.
 - Verification after the fix: Python compile PASS, preflight `43/43 PASS`, pure/direct helper tests `4 passed`.
 - The deployed address remains unproven for approval/release until this corrected source is deployed; no successful resolution or release is claimed.
+
+## 2026-09-02 — Validator-level diagnosis of corrected deployment
+
+- Full receipt for `0xbc972feac1ce4e6a69c9e8ddff1d4500850aa0a74188cf538da5dcccdcf1f692` on the corrected deployment shows `FINALIZED`, `MAJORITY_DISAGREE`, and overall `execution_result: ERROR`.
+- The leader and two validators executed policy/evidence and `exec_prompt`, then failed identically at `_validate_decision` because the model output was exactly `{"choice":0}`, not the required bounded envelope keys `decision`, `memory_ids`, and `reason`.
+- Two remaining validators were cancelled after quorum; this was not a clean disagreement over candidate indexes or memory IDs.
+- No policy-fetch, digest, embedding or web-fetch exception was observed in the available traces. No approval, memory insertion or release is claimed.
