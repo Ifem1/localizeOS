@@ -525,3 +525,11 @@ Copy this block for every meaningful work unit:
 
 - Updated `apps/web/lib/genlayer/execution.ts` so successful writes require `ACCEPTED` or `FINALIZED`, `MAJORITY_AGREE`, and `FINISHED_WITH_RETURN`.
 - Added five frontend tests covering accepted and finalized success, disagreement, GenVM error, and missing consensus fields.
+
+## 2026-09-02 — Diagnose live resolve_case failure
+
+- Queried StudioNet transaction `0x7d0e52503efd7f543748aaa14796256ef8df0c244bd911e7b78022c039f1d36a` for deployed contract `0xEC50ef7Ff172376f027C31c7b270EF6c21870536`.
+- The transaction finalized with `MAJORITY_DISAGREE`; all executed nodes failed at deployed `resolve_case()` because `exec_prompt` returned a transport envelope (`{"result": ...}`) that was parsed as the decision object.
+- Added narrowly scoped unwrapping for the StudioNet response envelope in `contracts/localizeos.py`.
+- Verification after the fix: Python compile PASS, preflight `43/43 PASS`, pure/direct helper tests `4 passed`.
+- The deployed address remains unproven for approval/release until this corrected source is deployed; no successful resolution or release is claimed.
