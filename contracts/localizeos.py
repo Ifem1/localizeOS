@@ -19,13 +19,21 @@ from dataclasses import dataclass
 from enum import Enum
 from genlayer import *
 import genlayer_embeddings
-from decision_normalization import normalize_decision_result
 
 MAX_NAME = 96
 MAX_TEXT = 2048
 MAX_CANDIDATES = 5
 MAX_JSON = 8192
 MAX_POLICY_CONTENT = 4096
+
+def normalize_decision_result(result):
+    parsed = result if isinstance(result, dict) else json.loads(result)
+    if isinstance(parsed, dict) and set(parsed.keys()) == {"result"}:
+        parsed = parsed["result"]
+        if isinstance(parsed, str):
+            parsed = json.loads(parsed)
+    assert isinstance(parsed, dict), "malformed decision"
+    return parsed
 
 
 class Status(str, Enum):

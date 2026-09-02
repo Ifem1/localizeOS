@@ -534,6 +534,13 @@ Copy this block for every meaningful work unit:
 - Verification after the fix: Python compile PASS, preflight `43/43 PASS`, pure/direct helper tests `4 passed`.
 - The deployed address remains unproven for approval/release until this corrected source is deployed; no successful resolution or release is claimed.
 
+## 2026-09-02 — Remove deploy-time helper import
+
+- Inspected all contract imports. The only non-GenLayer imports are the declared runtime dependencies `numpy` and `genlayer_embeddings`; `decision_normalization` was an unsupported local module import.
+- Inlined `normalize_decision_result` into `contracts/localizeos.py`; the helper file remains only as a host-side regression-test fixture and is not imported by the contract.
+- Preflight remains `43/43 PASS`; focused envelope regression passes.
+- Windows lint reached `3 checks` but SDK validation hit a local GenVM cache permission error. Full Windows Direct Mode remains affected by the known runner hang; Linux CI remains authoritative.
+
 ## 2026-09-02 — Validator-level diagnosis of corrected deployment
 
 - Full receipt for `0xbc972feac1ce4e6a69c9e8ddff1d4500850aa0a74188cf538da5dcccdcf1f692` on the corrected deployment shows `FINALIZED`, `MAJORITY_DISAGREE`, and overall `execution_result: ERROR`.
