@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { ExecutionResult, TransactionStatus } from "genlayer-js/types";
 import { canMutate, canSeal, readObject, tokens, validCandidates, validDigest, validHttps } from "../lib/genlayer/validation.ts";
+import { inspectExecution } from "../lib/genlayer/execution.ts";
 
 test("accepts exact lowercase SHA-256", () => { assert.equal(validDigest("a".repeat(64)), true); assert.equal(validDigest("A".repeat(64)), false); assert.equal(validDigest("a".repeat(63)), false); });
 test("requires HTTPS without whitespace", () => { assert.equal(validHttps("https://example.com/a"), true); assert.equal(validHttps("http://example.com"), false); assert.equal(validHttps("https://example.com/a b"), false); });
@@ -12,3 +14,8 @@ test("release requires at least one approved case", () => { assert.equal(canSeal
 test("malformed reads are rejected", () => { assert.equal(readObject(null), null); assert.equal(readObject([]), null); assert.deepEqual(readObject({ id: 1 }), { id: 1 }); });
 test("abstained cases cannot mutate", () => { assert.equal(canMutate("ABSTAINED"), false); });
 test("superseded cases cannot mutate", () => { assert.equal(canMutate("SUPERSEDED"), false); });
+test("accepted majority agreement with finished GenVM execution succeeds", () => { const result = inspectExecution({ statusName: TransactionStatus.ACCEPTED, resultName: "MAJORITY_AGREE", txExecutionResultName: ExecutionResult.FINISHED_WITH_RETURN }); assert.equal(result.ok, true); });
+test("finalized majority agreement with finished GenVM execution succeeds", () => { const result = inspectExecution({ statusName: TransactionStatus.FINALIZED, resultName: "MAJORITY_AGREE", txExecutionResultName: ExecutionResult.FINISHED_WITH_RETURN }); assert.equal(result.ok, true); });
+test("accepted transaction with disagreement is rejected", () => { const result = inspectExecution({ statusName: TransactionStatus.ACCEPTED, resultName: "MAJORITY_DISAGREE", txExecutionResultName: ExecutionResult.FINISHED_WITH_RETURN }); assert.equal(result.ok, false); });
+test("accepted transaction with GenVM error is rejected", () => { const result = inspectExecution({ statusName: TransactionStatus.ACCEPTED, resultName: "MAJORITY_AGREE", txExecutionResultName: ExecutionResult.FINISHED_WITH_ERROR, error: "reverted" }); assert.equal(result.ok, false); assert.match(result.reason ?? "", /reverted/); });
+test("missing consensus fields are rejected", () => { const result = inspectExecution({ statusName: TransactionStatus.ACCEPTED, txExecutionResultName: ExecutionResult.FINISHED_WITH_RETURN }); assert.equal(result.ok, false); });

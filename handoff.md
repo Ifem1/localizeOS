@@ -520,3 +520,8 @@ Copy this block for every meaningful work unit:
 - Added 10 focused frontend tests covering exact digests, HTTPS, placeholders, candidate bounds, status gating, release selection and malformed responses. Existing wallet test remains included.
 - The queue currently retains equivalent inline checks; the next cleanup can replace those duplicates while preserving the tested helper behavior.
 - Verification pending on the next CI run.
+
+## 2026-09-02 — Correct frontend consensus-success interpretation
+
+- Updated `apps/web/lib/genlayer/execution.ts` so successful writes require `ACCEPTED` or `FINALIZED`, `MAJORITY_AGREE`, and `FINISHED_WITH_RETURN`.
+- Added five frontend tests covering accepted and finalized success, disagreement, GenVM error, and missing consensus fields.
