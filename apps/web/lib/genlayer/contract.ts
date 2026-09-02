@@ -1,9 +1,12 @@
 import { createInjectedClient, type EthereumProvider } from "./client";
 import { CONTRACT_ADDRESS, CHAIN_ID } from "./config";
 import { inspectExecution } from "./execution";
+import { getWalletSession } from "./session";
 
 export async function writeContract(account: string, provider: EthereumProvider, functionName: string, args: unknown[]) {
   if (!CONTRACT_ADDRESS) throw new Error("Contract address is not configured.");
+  const session = getWalletSession();
+  if (!session.connected || session.account?.toLowerCase() !== account.toLowerCase()) throw new Error("WALLET_SESSION_DISCONNECTED: reconnect LocalizeOS before writing.");
   const chain = String(await provider.request({ method: "eth_chainId" }));
   if (Number.parseInt(chain, 16) !== CHAIN_ID) throw new Error("WRONG_NETWORK: switch wallet to StudioNet (61999).");
   const client = createInjectedClient(account, provider);
