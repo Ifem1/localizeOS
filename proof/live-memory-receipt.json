@@ -1,0 +1,9 @@
+{
+  "source_commit": "468d406",
+  "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "source_resolution_transaction": "0x6a2ad25c19e08f3b025f04bb7ad1c10bb0f7c647259dec014bc74c5c47d2ee72",
+  "preview_case_id": 2,
+  "observed_memory": [{"case_id": 1, "distance": "0.1814129", "policy_version": 1, "status": "APPROVED"}]
+}

@@ -1,0 +1,11 @@
+{
+  "source_commit": "468d406",
+  "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "transaction_hash": "0x59f360001a97f1d7c538954da4cccc66e2e5ce7dca849fa53702cc6fea807099",
+  "status": "ACCEPTED",
+  "consensus": "MAJORITY_AGREE",
+  "execution_observed": "leader SUCCESS; SDK execution_result field absent",
+  "observed_state": {"project_id": 1, "name": "Fresh Cycle Verified", "source_locale": "en", "policy_version": 1, "case_count": 0}
+}

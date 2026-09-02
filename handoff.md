@@ -541,6 +541,14 @@ Copy this block for every meaningful work unit:
 - Preflight remains `43/43 PASS`; focused envelope regression passes.
 - Windows lint reached `3 checks` but SDK validation hit a local GenVM cache permission error. Full Windows Direct Mode remains affected by the known runner hang; Linux CI remains authoritative.
 
+## 2026-09-02 — Fresh deployment and live lifecycle proof
+
+- Fresh deployment of source commit `468d406` succeeded at `0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482` via transaction `0x66abe234d85eba714c165c1925b24a2a9e7d60582555a83eb5e508be55d93855` with `FINALIZED`/`MAJORITY_AGREE` deployment evidence and successful leader execution.
+- Programmatically computed digests avoided a malformed hand-entered glossary digest. Project creation `0x59f360001a97f1d7c538954da4cccc66e2e5ce7dca849fa53702cc6fea807099` and case opening `0xdf98d93ea04b2c9e96dd5caaa82b4097b441e420614666ecd06057c4ed3689a6` were reread successfully.
+- Real `resolve_case` transaction `0x6a2ad25c19e08f3b025f04bb7ad1c10bb0f7c647259dec014bc74c5c47d2ee72` finalized with `MAJORITY_AGREE`; reread case 1 is `APPROVED`, index 0.
+- Related case 2 live preview returned approved case 1 with distance `0.1814129`; case 2 later reread as approved with `memory_ids_json` `[1]`.
+- Release transaction `0x2e379e3f529ed22b4a2eecf1503ed1c37474b25c30be664a21da2a4cf55a9eb5` was accepted with `MAJORITY_AGREE` and reread as release 1 containing case 1, policy version 1, manifest digest, commitment JSON and commitment digest.
+
 ## 2026-09-02 — Validator-level diagnosis of corrected deployment
 
 - Full receipt for `0xbc972feac1ce4e6a69c9e8ddff1d4500850aa0a74188cf538da5dcccdcf1f692` on the corrected deployment shows `FINALIZED`, `MAJORITY_DISAGREE`, and overall `execution_result: ERROR`.

@@ -1,0 +1,11 @@
+{
+  "source_commit": "468d406",
+  "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
+  "network": "GenLayer StudioNet",
+  "chain_id": 61999,
+  "transaction_hash": "0xdf98d93ea04b2c9e96dd5caaa82b4097b441e420614666ecd06057c4ed3689a6",
+  "status": "ACCEPTED",
+  "consensus": "MAJORITY_AGREE",
+  "execution_observed": "leader SUCCESS; SDK execution_result field absent",
+  "observed_state": {"case_id": 1, "status": "ESCALATED", "project_id": 1, "locale": "fr", "policy_version": 1, "candidates_json": "[\"Bienvenue {name}\", \"Salut {name}\"]"}
+}
