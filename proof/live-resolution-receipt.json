@@ -1,7 +1,7 @@
 {
-  "source_commit": "468d406",
+  "source_commit": "468d406d2900da26253e0852421c14ea99e7a188",
   "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
-  "network": "GenLayer StudioNet",
+  "network": "StudioNet",
   "chain_id": 61999,
   "transaction_hash": "0x6a2ad25c19e08f3b025f04bb7ad1c10bb0f7c647259dec014bc74c5c47d2ee72",
   "status": "FINALIZED",

@@ -1,10 +1,10 @@
 {
-  "source_commit": "468d406",
+  "source_commit": "468d406d2900da26253e0852421c14ea99e7a188",
   "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
-  "network": "GenLayer StudioNet",
+  "network": "StudioNet",
   "chain_id": 61999,
   "transaction_hash": "0x2e379e3f529ed22b4a2eecf1503ed1c37474b25c30be664a21da2a4cf55a9eb5",
-  "status": "ACCEPTED",
+  "status": "FINALIZED",
   "consensus": "MAJORITY_AGREE",
   "required_case_ids": [1],
   "observed_release": {"project_id": 1, "locale": "fr", "policy_version": 1, "manifest_digest": "993a7660bca4d1606f069531ed8dbf41a6f6e60b1f10e4f6d75c2f50c2f4f165", "commitment_digest": "e715e2ba0f0b9b8b5640ff88e618e5e9f30047a6fab6c422c274a36d26664fd2", "sealed_at": 1788388081}

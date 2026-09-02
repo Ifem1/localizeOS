@@ -1,0 +1,11 @@
+{
+  "source_commit": "468d406d2900da26253e0852421c14ea99e7a188",
+  "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
+  "network": "StudioNet",
+  "chain_id": 61999,
+  "case_open_transaction": "0xbe6074e6f91e2f08f027cb2c81119c8d84223e00cf0fea80c5f581129fe4441c",
+  "case_resolution_transaction": "0x605b2ee0b0b0646f21540a8e623bf190bd968007135ff5e6ce7e1233c6dbe4d7",
+  "status": "FINALIZED",
+  "consensus": "MAJORITY_AGREE",
+  "observed_state": {"case_id": 2, "status": "APPROVED", "approved_index": 0, "memory_ids_json": "[1]", "policy_version": 1, "project_id": 1, "locale": "fr"}
+}

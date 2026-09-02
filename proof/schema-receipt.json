@@ -1,12 +1,13 @@
 {
-  "source_commit": "4c486adfeab789baba4c4f34bcd24cd0c9829159",
-  "contract_address": "0xEC50ef7Ff172376f027C31c7b270EF6c21870536",
+  "source_commit": "468d406d2900da26253e0852421c14ea99e7a188",
+  "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
   "network": "StudioNet",
   "chain_id": 61999,
+  "deployment_transaction": "0x66abe234d85eba714c165c1925b24a2a9e7d60582555a83eb5e508be55d93855",
   "schema_verified": true,
+  "resolve_case_publicly_callable": true,
   "writes": ["create_project", "open_case", "resolve_case", "seal_release", "supersede_case", "update_language_assets"],
   "views": ["get_case", "get_project", "get_release", "list_cases", "list_projects", "list_releases", "preview_memory"],
-  "resolve_case_publicly_callable": true,
-  "verification_method": "gen_getContractSchema JSON-RPC",
-  "note": "The schema marks writes readonly=false and views readonly=true. No lifecycle transaction evidence is implied by this schema receipt."
+  "verification_method": "genlayer schema CLI / gen_getContractSchema",
+  "observed_schema_properties": "writes readonly=false; views readonly=true; resolve_case returns string"
 }

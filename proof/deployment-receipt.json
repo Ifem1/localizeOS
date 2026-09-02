@@ -1,13 +1,13 @@
 {
-  "source_commit": "4c486adfeab789baba4c4f34bcd24cd0c9829159",
-  "contract_source_sha256": "3ce58788a8505fba515c87c5c5a763b8538b590d3d51b411a0b4a177ced0ccf9",
-  "contract_source_bytes": 18867,
+  "source_commit": "468d406d2900da26253e0852421c14ea99e7a188",
+  "contract_source_sha256": "c51413151ce3e5bc5ce8cf61de86d654a0a97fce0488521043b9388288a2d3e0",
+  "contract_source_bytes": 19678,
   "network": "StudioNet",
   "chain_id": 61999,
-  "contract_address": "0xEC50ef7Ff172376f027C31c7b270EF6c21870536",
-  "transaction_hash": "0x0539f6983b5db294e704babdf108c29ecb19024c0ef45040cfa0e9549a9f9d97",
-  "observed_cli_status": "ACCEPTED",
-  "observed_cli_result": "MAJORITY_AGREE",
-  "observed_validator_votes": ["IDLE", "AGREE", "AGREE", "AGREE", "IDLE"],
-  "note": "Deployment success is recorded from the genlayer deploy CLI output. A normalized receipt query requires the configured keystore password and was not fabricated."
+  "contract_address": "0x3E1f2FaFd5a8829885876CdCAdA7e8166bd86482",
+  "transaction_hash": "0x66abe234d85eba714c165c1925b24a2a9e7d60582555a83eb5e508be55d93855",
+  "observed_status": "FINALIZED",
+  "observed_consensus": "MAJORITY_AGREE",
+  "observed_execution": "leader SUCCESS; validator quorum entries included SUCCESS and cancellation records",
+  "source_parity": "Deployment used contracts/localizeos.py at the recorded source commit; schema was queried from this address."
 }

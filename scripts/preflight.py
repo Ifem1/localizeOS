@@ -1,6 +1,7 @@
 """Behavioral offline contract audit; does not claim GenVM execution."""
 import ast
 import hashlib
+import json
 import re
 from pathlib import Path
 
@@ -40,6 +41,21 @@ check("VecDB namespace filter", "pointer.project_id != case.project_id" in sourc
 check("state transitions", all(status in source for status in ("ESCALATED", "PENDING", "APPROVED", "ABSTAINED", "SUPERSEDED")))
 check("compile contract", compile(source, "contracts/localizeos.py", "exec") is not None)
 readme = (ROOT / "README.md").read_text(encoding="utf-8")
-has_verified_deployment = bool(re.search(r"0x[0-9a-fA-F]{40}", readme)) and "No lifecycle hashes" in readme
-check("no fabricated deployment evidence", ("No contract address" in readme and "live frontend URL" in readme) or has_verified_deployment)
+deployment = json.loads((ROOT / "proof" / "deployment-receipt.json").read_text(encoding="utf-8"))
+address = deployment["contract_address"]
+source_commit = deployment["source_commit"]
+source_hash = deployment["contract_source_sha256"]
+for doc in (readme, (ROOT / "DEPLOYMENT.md").read_text(encoding="utf-8"), (ROOT / "SUBMISSION.md").read_text(encoding="utf-8")):
+    check("canonical deployment address in docs", address in doc)
+    check("canonical source commit in docs", source_commit in doc or source_commit[:7] in doc)
+    check("canonical source hash in docs", source_hash in doc)
+schema = json.loads((ROOT / "proof" / "schema-receipt.json").read_text(encoding="utf-8"))
+check("schema matches deployment", schema["contract_address"] == address and schema["source_commit"] == source_commit)
+check("schema exposes resolve_case write", schema["resolve_case_publicly_callable"] is True and "resolve_case" in schema["writes"])
+live_receipts = list((ROOT / "proof").glob("live-*.json"))
+check("claimed lifecycle proof files exist", len(live_receipts) >= 5)
+for receipt_path in live_receipts:
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    check(f"lifecycle receipt identity: {receipt_path.name}", receipt["contract_address"] == address and receipt["source_commit"] == source_commit and receipt["network"] == "StudioNet" and receipt["chain_id"] == 61999)
+check("no fabricated deployment evidence", deployment["observed_status"] == "FINALIZED" and deployment["observed_consensus"] == "MAJORITY_AGREE")
 print(f"LocalizeOS offline preflight: {len(checks)}/{len(checks)} PASS")
