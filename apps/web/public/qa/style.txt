@@ -1,0 +1,3 @@
+Use formal, neutral French for user-facing product copy.
+For welcome messages, prefer "Bienvenue" and do not use "Salut".
+Preserve placeholders exactly, including {name}.

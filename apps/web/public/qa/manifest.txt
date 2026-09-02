@@ -1,0 +1,3 @@
+release=localizeos-frontend-qa
+locale=fr
+purpose=frontend write verification

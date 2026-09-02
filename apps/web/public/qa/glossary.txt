@@ -1,0 +1,3 @@
+welcome = Bienvenue
+hello = Bonjour
+{name} = preserve exactly

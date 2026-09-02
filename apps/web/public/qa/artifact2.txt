@@ -1,0 +1,5 @@
+source_key=welcome_user_returning
+source=Welcome back {name}
+context=Account dashboard greeting
+candidate_1=Bienvenue à nouveau {name}
+candidate_2=Salut encore {name}

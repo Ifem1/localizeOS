@@ -1,0 +1,5 @@
+source_key=welcome_user
+source=Welcome {name}
+context=Account dashboard greeting
+candidate_1=Bienvenue {name}
+candidate_2=Salut {name}
