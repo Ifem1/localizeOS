@@ -540,3 +540,9 @@ Copy this block for every meaningful work unit:
 - The leader and two validators executed policy/evidence and `exec_prompt`, then failed identically at `_validate_decision` because the model output was exactly `{"choice":0}`, not the required bounded envelope keys `decision`, `memory_ids`, and `reason`.
 - Two remaining validators were cancelled after quorum; this was not a clean disagreement over candidate indexes or memory IDs.
 - No policy-fetch, digest, embedding or web-fetch exception was observed in the available traces. No approval, memory insertion or release is claimed.
+
+## 2026-09-02 — Add diagnosed decision-schema guard
+
+- Updated the nondeterministic reviewer prompt to require exactly `decision`, `memory_ids`, and `reason`, explicitly rejecting alternate keys such as `choice`.
+- Extracted response-envelope normalization into `contracts/decision_normalization.py` and added regression coverage for direct objects, direct JSON text, StudioNet `{result: JSON text}` envelopes, and malformed envelope content.
+- The focused normalization regression passes. `response_format="json"` was not enabled because compatibility with the pinned StudioNet runtime has not yet been independently proven.

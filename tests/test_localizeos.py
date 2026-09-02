@@ -1,11 +1,20 @@
 import hashlib
 import json
 import pytest
+from contracts.decision_normalization import normalize_decision_result
 
 STYLE = "https://example.com/style.txt"
 GLOSSARY = "https://example.com/glossary.txt"
 STYLE_DIGEST = hashlib.sha256(b"style").hexdigest()
 GLOSSARY_DIGEST = hashlib.sha256(b"glossary").hexdigest()
+
+def test_decision_result_normalization_accepts_direct_and_studio_envelopes():
+    decision = {"decision": 0, "memory_ids": [], "reason": "matches policy"}
+    assert normalize_decision_result(decision) == decision
+    assert normalize_decision_result(json.dumps(decision)) == decision
+    assert normalize_decision_result({"result": json.dumps(decision)}) == decision
+    with pytest.raises(Exception):
+        normalize_decision_result({"result": "not-json"})
 
 def deploy(direct_deploy):
     return direct_deploy("contracts/localizeos.py", sdk_version="v0.2.16")
