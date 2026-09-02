@@ -25,7 +25,7 @@ Verified:
 - `python -m pytest tests/direct -q` — 4 passed
 - `npm run typecheck` — PASS
 - `npm run lint` — PASS
-- `npm test` — 11 passed in CI
+- `npm test` — 16 passed in CI
 - `npm run build` — PASS
 
 GenLayer Direct Mode contract tests pass in clean Linux CI (`11 passed`). StudioNet deployment and the public contract schema are verified, and signed lifecycle evidence is recorded under `proof/`.

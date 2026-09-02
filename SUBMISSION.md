@@ -10,12 +10,12 @@
 - Deployment transaction: `0x66abe234d85eba714c165c1925b24a2a9e7d60582555a83eb5e508be55d93855`
 - Tested source commit: `468d406`
 - Contract source SHA-256: `c51413151ce3e5bc5ce8cf61de86d654a0a97fce0488521043b9388288a2d3e0`
-- GitHub Actions: [33692248899](https://github.com/Ifem1/localizeOS/actions/runs/33692248899), green
+- GitHub Actions: [33694024999](https://github.com/Ifem1/localizeOS/actions/runs/33694024999), green
 
 ## Verification
 
 - GenVM lint and SDK validation: PASS
-- Behavioral preflight: `43/43 PASS`
+- Behavioral preflight: `61/61 PASS`
 - Direct Mode contract tests: `11 passed`
 - Frontend tests: `16 passed`
 - Frontend typecheck, lint, production build and audit: PASS
