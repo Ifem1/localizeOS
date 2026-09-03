@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { ExecutionResult, TransactionStatus } from "genlayer-js/types";
-import { canMutate, canSeal, readObject, tokens, validCandidates, validDigest, validHttps } from "../lib/genlayer/validation.ts";
+import { canMutate, canSeal, discoverCaseId, readObject, tokens, validCandidates, validDigest, validHttps } from "../lib/genlayer/validation.ts";
 import { inspectExecution } from "../lib/genlayer/execution.ts";
 
 test("accepts exact lowercase SHA-256", () => { assert.equal(validDigest("a".repeat(64)), true); assert.equal(validDigest("A".repeat(64)), false); assert.equal(validDigest("a".repeat(63)), false); });
@@ -19,3 +19,9 @@ test("finalized majority agreement with finished GenVM execution succeeds", () =
 test("accepted transaction with disagreement is rejected", () => { const result = inspectExecution({ statusName: TransactionStatus.ACCEPTED, resultName: "MAJORITY_DISAGREE", txExecutionResultName: ExecutionResult.FINISHED_WITH_RETURN }); assert.equal(result.ok, false); });
 test("accepted transaction with GenVM error is rejected", () => { const result = inspectExecution({ statusName: TransactionStatus.ACCEPTED, resultName: "MAJORITY_AGREE", txExecutionResultName: ExecutionResult.FINISHED_WITH_ERROR, error: "reverted" }); assert.equal(result.ok, false); assert.match(result.reason ?? "", /reverted/); });
 test("missing consensus fields are rejected", () => { const result = inspectExecution({ statusName: TransactionStatus.ACCEPTED, txExecutionResultName: ExecutionResult.FINISHED_WITH_RETURN }); assert.equal(result.ok, false); });
+const input = { project: 2, locale: "fr", stringKey: "welcome", source: "Welcome {name}", artifact: "https://example.test/a", digest: "a".repeat(64) };
+const record = { project_id: 2, locale: "fr", string_key: "welcome", source_text: "Welcome {name}", artifact_ref: input.artifact, artifact_digest: input.digest };
+test("case discovery prefers a matching receipt ID", () => { assert.equal(discoverCaseId({}, { "3": record }, input, 3), 3); });
+test("case discovery falls back to one new matching record", () => { assert.equal(discoverCaseId({ "1": {} }, { "1": {}, "3": record }, input), 3); });
+test("case discovery filters concurrent new records by submitted fields", () => { assert.equal(discoverCaseId({}, { "3": record, "4": { ...record, string_key: "other" } }, input), 3); });
+test("case discovery refuses ambiguous exact matches", () => { assert.equal(discoverCaseId({}, { "3": record, "4": record }, input), 0); });
