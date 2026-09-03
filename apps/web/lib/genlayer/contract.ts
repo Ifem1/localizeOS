@@ -13,7 +13,7 @@ export async function writeContract(account: string, provider: EthereumProvider,
   const hash = await client.writeContract({ address: CONTRACT_ADDRESS as `0x${string}`, functionName, args: args as never[], value: BigInt(0) });
   const finalized = await client.waitForTransactionReceipt({ hash, status: "FINALIZED" as Parameters<typeof client.waitForTransactionReceipt>[0]["status"], interval: 5_000, retries: 90, fullTransaction: true } as Parameters<typeof client.waitForTransactionReceipt>[0]);
   const receiptVerdict = inspectExecution(finalized);
-  const tx = receiptVerdict.ok || receiptVerdict.indeterminate ? undefined : await client.getTransaction({ hash });
+  const tx = receiptVerdict.ok ? undefined : await client.getTransaction({ hash });
   const verdict = tx ? inspectExecution(tx) : receiptVerdict;
   if (!verdict.ok && !verdict.indeterminate) throw new Error(verdict.reason);
   return { hash, finalized, verdict };
