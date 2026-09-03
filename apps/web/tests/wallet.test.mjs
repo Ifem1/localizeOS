@@ -16,3 +16,11 @@ test("LocalizeOS session requires explicit connection and can be cleared", async
   setWalletSession(null);
   assert.deepEqual(getWalletSession(), { connected: false, account: null });
 });
+
+test("finalized receipt evidence is preferred when the secondary transaction is sparse", async () => {
+  const { inspectExecution } = await import("../lib/genlayer/execution.ts");
+  const receipt = { statusName: "FINALIZED", resultName: "MAJORITY_AGREE", txExecutionResultName: "FINISHED_WITH_RETURN" };
+  assert.equal(inspectExecution(receipt).ok, true);
+  assert.equal(inspectExecution({ statusName: "FINALIZED", resultName: "MAJORITY_AGREE" }).indeterminate, true);
+  assert.equal(inspectExecution({ statusName: "FINALIZED", resultName: "MAJORITY_AGREE", txExecutionResultName: "FINISHED_WITH_ERROR" }).ok, false);
+});
